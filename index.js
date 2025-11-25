@@ -12,6 +12,7 @@ const swaggerDocument = yamljs.load('./docs/swagger.yaml');
 //const swaggerDocument = require('./docs/swagger.json');
 
 // change to test delivers
+// Test nr 2 for liteTracker ID
 
 app.get('/books', (req, res) => {
     res.send(["Decameron", "Romeo and Juliet", "It"])
