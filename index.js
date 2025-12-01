@@ -10,16 +10,22 @@ const yamljs = require('yamljs');
 
 const swaggerDocument = yamljs.load('./docs/swagger.yaml');
 //const swaggerDocument = require('./docs/swagger.json');
+const { sync } = require("./db")
 
 // change to test delivers
 // Test nr 2 for liteTracker ID
 
-app.get('/books', (req, res) => {
-    res.send(["Decameron", "Romeo and Juliet", "It"])
-})
+// app.get('/books', (req, res) => {
+//     res.send(["Decameron", "Romeo and Juliet", "It"])
+// })
 
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+app.use(cors());
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use(express.json());
 
-app.listen(port, () => {
-    console.log(`API on aadressil: http://localhost:${port}`)
+require("./routes/bRoutes.js")(app)
+
+app.listen(port, async () => {
+    if (process.env.SYNC === 'true') {await sync();}
+    console.log(`API on aadressil: http://${host}:${port}`)
 })
