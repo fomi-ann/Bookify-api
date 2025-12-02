@@ -54,6 +54,13 @@ paths:
             operationId: BookID
             summary: Get full details of a book
             description: Will return all details of a given <Book> based on BookID given.
+        parameters:
+            -
+                name: BookID
+                description: ID of the book
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app
@@ -93,17 +100,15 @@ definitions:
             CoverImageUrl:
                 description: ''
                 type: string
-        example: |-
-            {
-                "Name": "NewBookName",
-                "Description": "NewBookDescription",
-                "ReadingTimeMin": 0,
-                "PageCount": 0,
-                "Language": "NewBookLanguage",
-                "ReleaseYear": 2000,
-                "ISBN": 0000000000000,
-                "CoverImageUrl": "NewBookCoverImageUrl"
-            }
+        example:
+            Name: NewBookName
+            Description: NewBookDescription
+            ReadingTimeMin: 1
+            PageCount: 1
+            Language: NewBookLanguage
+            ReleaseYear: 2000
+            ISBN: 1111111111111
+            CoverImageUrl: NewBookCoverImageUrl
     error:
         title: Root Type for error
         description: Error

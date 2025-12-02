@@ -34,6 +34,7 @@ async (req,res) => {
         return res.status(400).send({error:'Missing some parameter, please review your request data.'})
     }
     const newBook = {
+        BookID: UUID.v7(),
         Name: req.body.Name,
         Description: req.body.Description,
         ReadingTimeMin: req.body.ReadingTimeMin,
@@ -43,6 +44,7 @@ async (req,res) => {
         ISBN: req.body.ISBN,
         CoverImageUrl: req.body.CoverImageUrl,
     }
+    console.log(newBook.BookID)
 
     const createdBook = await db.books.create(newBook);
     return res
