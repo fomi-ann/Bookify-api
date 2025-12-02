@@ -23,6 +23,8 @@ paths:
             summary: Get all books
             description: Returns all books that are registered in API
         post:
+            tags:
+                - books
             parameters:
                 -
                     name: body
