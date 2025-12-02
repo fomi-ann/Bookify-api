@@ -22,6 +22,26 @@ paths:
                             - It
             summary: Get all books
             description: Returns all books that are registered in API
+        post:
+            parameters:
+                -
+                    name: body
+                    description: The book that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-Book'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: New Book Created Successfully
+                    schema:
+                        $ref: '#/definitions/new-Book'
+                '400':
+                    description: 'Missing some parameter, please review request data.'
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Create a new book into the app
+            description: 'Create a new book instance with its required details, for further usage.'
     '/books/{BookID}':
         get:
             tags:
@@ -32,3 +52,62 @@ paths:
             operationId: BookID
             summary: Get full details of a book
             description: Will return all details of a given <Book> based on BookID given.
+definitions:
+    new-Book:
+        description: Add new book to app
+        required:
+            - Name
+            - Language
+            - Description
+            - PageCount
+            - ReadingTimeMin
+            - ReleaseYear
+            - CoverImageUrl
+            - ISBN
+        type: object
+        properties:
+            Name:
+                description: ''
+                type: string
+            Description:
+                description: ''
+                type: string
+            ReadingTimeMin:
+                description: ''
+                type: integer
+            PageCount:
+                description: ''
+                type: integer
+            Language:
+                description: ''
+                type: string
+            ReleaseYear:
+                description: ''
+                type: integer
+            ISBN:
+                format: double
+                description: ''
+                type: number
+            CoverImageUrl:
+                description: ''
+                type: string
+        example: |-
+            {
+                "Name": "NewBookName",
+                "Description": "NewBookDescription",
+                "ReadingTimeMin": 0,
+                "PageCount": 0,
+                "Language": "NewBookLanguage",
+                "ReleaseYear": 2000,
+                "ISBN": 0000000000000,
+                "CoverImageUrl": "NewBookCoverImageUrl"
+            }
+    error:
+        title: Root Type for error
+        description: Error
+        type: object
+        properties:
+            error:
+                type: string
+        example:
+            error: Error message
