@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.route("/books/:BookID")
     .get(BooksController.getByID)
     .delete(BooksController.deleteById)
+    .put(BooksController.modifyById)
 }

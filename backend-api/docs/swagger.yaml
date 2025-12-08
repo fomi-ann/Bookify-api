@@ -54,6 +54,49 @@ paths:
             operationId: BookID
             summary: Get full details of a book
             description: Will return all details of a given <Book> based on BookID given.
+        put:
+            tags:
+                - Books
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified book.
+                    schema:
+                        $ref: '#/definitions/new-Book'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of book.
+                    schema:
+                        $ref: '#/definitions/new-Book'
+                    examples:
+                        application/json:
+                            -
+                                Name: rqa0vl6
+                                Description: a
+                                ReadingTimeMin: 28
+                                PageCount: 53
+                                Language: ''
+                                ReleaseYear: 73
+                                ISBN: 44.43
+                                CoverImageUrl: scyep8s
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'cannot change info, because some parameter is missing'
+                '404':
+                    description: 'Returns 404 when book that is to be modified, is not found by the given BookID.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Book not found
         delete:
             tags:
                 - books
@@ -74,6 +117,9 @@ paths:
                         application/json:
                             -
                                 error: Id not found
+            operationId: BookID
+            summary: Delete book from app
+            description: Will delete book with a given Id from the app
         parameters:
             -
                 name: BookID

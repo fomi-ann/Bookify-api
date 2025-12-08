@@ -19,6 +19,39 @@ async (req, res) => {
     return res.status(200).send(book)
 }
 
+exports.modifyById = 
+async(req, res) => {
+    const bookToBeChanged = await getBook(req, res);
+    if(!bookToBeChanged) {
+        return;
+    }
+    if (
+        !req.body.Name ||
+        !req.body.Description ||
+        !req.body.ReadingTimeMin ||
+        !req.body.PageCount ||
+        !req.body.ReleaseYear ||
+        !req.body.Language ||
+        !req.body.ISBN ||
+        !req.body.CoverImageUrl
+    ){
+        return res.status(400).send({error:'Missing some parameter, please review your request data.'})
+    }
+        bookToBeChanged.Name = req.body.Name;
+        bookToBeChanged.Description = req.body.Description;
+        bookToBeChanged.ReadingTimeMin = req.body.ReadingTimeMin;
+        bookToBeChanged.PageCount = req.body.PageCount;
+        bookToBeChanged.ReleaseYear = req.body.ReleaseYear;
+        bookToBeChanged.Language = req.body.Language;
+        bookToBeChanged.ISBN = req.body.ISBN;
+        bookToBeChanged.CoverImageUrl = req.body.CoverImageUrl;
+
+        await bookToBeChanged.save();
+        return res
+            .location(`${Utilities.getBaseURL(req)}/books/${bookToBeChanged.BookID}`).sendStatus(201)
+            .send(bookToBeChanged);
+}
+
 exports.create =
 async (req,res) => {
     if (
