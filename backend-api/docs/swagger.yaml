@@ -44,33 +44,6 @@ paths:
                         $ref: '#/definitions/error'
             summary: Create a new book into the app
             description: 'Create a new book instance with its required details, for further usage.'
-        delete:
-            parameters:
-                -
-                    name: body
-                    description: Id of a book to be deleted from the app
-                    schema:
-                        $ref: '#/definitions/delete-Book'
-                    in: body
-                    required: true
-            responses:
-                '204':
-                    description: Returns 'No Content' when removals of book is successful
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: No Content
-                '404':
-                    description: 'Returns error, when book with specified ID does not exist.'
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: Id not found
-            description: Deletes an entry from app
     '/books/{BookID}':
         get:
             tags:
@@ -81,6 +54,26 @@ paths:
             operationId: BookID
             summary: Get full details of a book
             description: Will return all details of a given <Book> based on BookID given.
+        delete:
+            tags:
+                - books
+            responses:
+                '204':
+                    description: Returns 'No Content' when removal of book is successful
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: 'Returns error, when book with specific ID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Id not found
         parameters:
             -
                 name: BookID

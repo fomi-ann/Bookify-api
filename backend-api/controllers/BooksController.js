@@ -53,11 +53,11 @@ async (req,res) => {
 
 exports.deleteById =
     async (req, res) => {
-        const filmToBeDeleted = await getFilm(req, res);
-        if (!filmToBeDeleted) {
+        const bookToBeDeleted = await getBook(req, res);
+        if (!bookToBeDeleted) {
             return;
         }
-        await filmToBeDeleted.destroy();
+        await bookToBeDeleted.destroy();
         res.status(204).send("No Content")
     }
 

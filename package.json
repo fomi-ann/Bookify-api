@@ -1,10 +1,11 @@
 {
   "name": "bookify-api",
   "version": "1.0.0",
-  "description": "TARge24 API Project",
+  "description": "The application's objective is to offer book lovers a comprehensive platform where they can conveniently manage their personal reading lists, search for new books to read, and gain an overview of their reading habits. The application is aimed at both registered and unregistered users, offering them different functionalities according to their user profile. The project's goal is to support an active reading culture and provide a personalized user experience.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd backend-api && nodemon ."
   },
   "repository": {
     "type": "git",
@@ -18,14 +19,6 @@
   },
   "homepage": "https://github.com/fomi-ann/Bookify-api#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "mariadb": "^3.4.5",
-    "nodemon": "^3.1.11",
-    "sequelize": "^6.37.7",
-    "swagger-ui-express": "^5.0.1",
-    "uuid": "^13.0.0",
-    "yamljs": "^0.3.0"
+    "concurrently": "^9.2.1"
   }
 }

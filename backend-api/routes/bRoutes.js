@@ -6,5 +6,5 @@ module.exports = (app) => {
     .post(BooksController.create)
     app.route("/books/:BookID")
     .get(BooksController.getByID)
-
+    .delete(BooksController.deleteById)
 }
