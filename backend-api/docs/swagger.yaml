@@ -7,7 +7,7 @@ paths:
     /books:
         get:
             tags:
-                - books
+                - Books
             responses:
                 '200':
                     description: Returns a list of books
@@ -24,7 +24,7 @@ paths:
             description: Returns all books that are registered in API
         post:
             tags:
-                - books
+                - Books
             parameters:
                 -
                     name: body
@@ -99,7 +99,7 @@ paths:
                                 error: Book not found
         delete:
             tags:
-                - books
+                - Books
             responses:
                 '204':
                     description: Returns 'No Content' when removal of book is successful
