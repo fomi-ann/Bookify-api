@@ -26,6 +26,7 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json());
 
 require("./routes/bRoutes.js")(app)
+require("./routes/uRoutes.js")(app)
 
 app.listen(port, async () => {
     if (process.env.SYNC === 'true') {await sync();}
