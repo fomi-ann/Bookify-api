@@ -133,7 +133,7 @@ paths:
                 - Users
             responses:
                 '200':
-                    description: Returns a list of User's UserNames.
+                    description: Returns a list of all Users.
                     schema:
                         type: array
                         items:
@@ -141,11 +141,10 @@ paths:
                     examples:
                         application/json:
                             -
-                                - TestUsername
-                                - TestUsername2
-            operationId: getAll
+                                - user1
+                                - user2
             summary: Get all users.
-            description: Returns all of the registered Users UserNames in API.
+            description: Returns all Users that are registered in the API.
         post:
             tags:
                 - Users
@@ -161,18 +160,7 @@ paths:
                     description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
                     schema:
                         $ref: '#/definitions/new-User'
-                    examples:
-                        application/json:
-                            -
-                                Email: qmsk4gf
-                                UserName: etdaxrhni
-                                DisplayName: kz
-                                FullName: yxioyt
-                                PhoneNumber: '6'
-                                Password: 8rmd9
-                                ProfileImageUrl: t361p
-                                PagesReadTotal: 70
-                                BooksReadCount: 15
+                    examples: {}
                 '400':
                     description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
@@ -184,6 +172,24 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
+        get:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Returns a list of <Event> names.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - Reading Event
+                                - Another Reading Event
+                                - Extra Special Reading Event
+            summary: Get all <Event>s
+            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
@@ -219,17 +225,6 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
-    '/users/{UserID}':
-        get:
-            tags:
-                - Users
-            responses:
-                '200':
-                    description: Returns all details of the given <User>.
-                    schema:
-                        type: string
-                '400':
-                    description: 'No UserID was entered, User is not found.'
     '/events/{EventID}':
         get:
             tags:
@@ -276,12 +271,91 @@ paths:
                                 error: ''
             operationId: EventID
             summary: Get full details of a given <Event>
-            summary: Get full details of a User.
             description: Will return all details of a given <Event> based on EventID given.
+        delete:
+            tags:
+                - Events
+            responses:
+                '204':
+                    description: Returns "No Content" when successfully removed an <Event> from app
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '400':
+                    description: 'Returns error, when <Event> ID was not provided.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: EventID never provided
+                '404':
+                    description: Returns error when <Event> with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event not found
+            operationId: EventID
+            summary: Delete an <Event> from app
+            description: Will delete <Event> with a given Id from the app
         parameters:
             -
                 name: EventID
                 description: ID of an Event
+                in: path
+                required: true
+                type: string
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given <User>.
+            operationId: UserID
+            summary: Get full details of the User.
+            description: Will return details of a given <User> based on UserID given.
+        delete:
+            tags:
+                - Users
+            responses:
+                '204':
+                    description: Returns 'No Content' when deletion of the User is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No content
+                '400':
+                    description: Returns error when the UserID is missing from the request.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Please enter the ID of the user you want to delete.
+                '404':
+                    description: 'Returns error, when user with the given UserID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this UserID is not found.
+            operationId: UserID
+            summary: Delete User from the app.
+            description: |
+                Deletes user with a given UserID from the app.
+        parameters:
+            -
+                name: UserID
+                description: ID of the User.
                 in: path
                 required: true
                 type: string
@@ -448,3 +522,14 @@ definitions:
             EventMaxParticipantCount: 100
             EventCurrentParticipantCount: 3
             EventLanguage: English
+    delete-User:
+        description: ''
+        required: []
+        type: object
+        properties:
+            UserID:
+                description: ''
+                type: string
+        example:
+            -
+                UserID: 019b1e4f-ff99-76ee-b6fa-005fe3e30ae9
