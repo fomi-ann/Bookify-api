@@ -133,7 +133,7 @@ paths:
                 - Users
             responses:
                 '200':
-                    description: Returns a list of Users.
+                    description: Returns a list of all Users.
                     schema:
                         type: array
                         items:
@@ -141,11 +141,10 @@ paths:
                     examples:
                         application/json:
                             -
-                                - User1
-                                - User2
-            operationId: getAll
+                                - user1
+                                - user2
             summary: Get all users.
-            description: Returns all of the registered Users UserNames in API.
+            description: Returns all Users that are registered in the API.
         post:
             tags:
                 - Users
@@ -226,17 +225,6 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
-    '/users/{UserID}':
-        get:
-            tags:
-                - Users
-            responses:
-                '200':
-                    description: Returns all details of the given <User>.
-                    schema:
-                        type: string
-                '400':
-                    description: 'No UserID was entered, User is not found.'
     '/events/{EventID}':
         get:
             tags:
@@ -272,18 +260,14 @@ paths:
                     examples:
                         application/json:
                             -
-                                error: No UserID was entered.
+                                error: xv3stgj
                 '404':
-                    description: <User> with this ID does not exist. Error is returned.
+                    description: 'Returns Status Code 404, when <Eevent> by this ID does not exist.'
                     schema:
                         $ref: '#/definitions/error'
                     examples:
                         application/json:
                             -
-                                error: User with this UserID is not found.
-            operationId: UserID
-            summary: Get full details of a User.
-            description: Will return details of a given <User> based on UserID given.
                                 error: ''
             operationId: EventID
             summary: Get full details of a given <Event>
@@ -319,6 +303,23 @@ paths:
             operationId: EventID
             summary: Delete an <Event> from app
             description: Will delete <Event> with a given Id from the app
+        parameters:
+            -
+                name: EventID
+                description: ID of an Event
+                in: path
+                required: true
+                type: string
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given <User>.
+            operationId: UserID
+            summary: Get full details of the User.
+            description: Will return details of a given <User> based on UserID given.
         parameters:
             -
                 name: UserID
