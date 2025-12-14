@@ -131,17 +131,9 @@ paths:
         get:
             tags:
                 - Users
-            parameters:
-                -
-                    name: body
-                    description: A new User that is to be created.
-                    schema:
-                        $ref: '#/definitions/new-User'
-                    in: body
-                    required: true
             responses:
                 '200':
-                    description: Returns a list of User's UserNames.
+                    description: Returns a list of Users.
                     schema:
                         type: array
                         items:
@@ -149,8 +141,8 @@ paths:
                     examples:
                         application/json:
                             -
-                                - TestUsername
-                                - TestUsername2
+                                - User1
+                                - User2
             operationId: getAll
             summary: Get all users.
             description: Returns all of the registered Users UserNames in API.
@@ -169,18 +161,7 @@ paths:
                     description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
                     schema:
                         $ref: '#/definitions/new-User'
-                    examples:
-                        application/json:
-                            -
-                                Email: qmsk4gf
-                                UserName: etdaxrhni
-                                DisplayName: kz
-                                FullName: yxioyt
-                                PhoneNumber: '6'
-                                Password: 8rmd9
-                                ProfileImageUrl: t361p
-                                PagesReadTotal: 70
-                                BooksReadCount: 15
+                    examples: {}
                 '400':
                     description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
