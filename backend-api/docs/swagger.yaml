@@ -97,9 +97,6 @@ paths:
                         application/json:
                             -
                                 error: Book not found
-            operationId: BookID
-            summary: Change details of a <Book> with a given ID
-            description: Will return updated details of a <Book> with a given ID
         delete:
             tags:
                 - Books
@@ -239,13 +236,6 @@ paths:
                     in: path
                     required: true
                     type: string
-                -
-                    name: body
-                    description: Contains modified <Event> data
-                    schema:
-                        $ref: '#/definitions/new-Event'
-                    in: body
-                    required: true
             responses:
                 '200':
                     description: Returns all details of the given <Event>
@@ -327,6 +317,22 @@ paths:
             responses:
                 '200':
                     description: Returns all details of the given <User>.
+                '400':
+                    description: Returns error when the ID of the user is not added.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Please enter the ID of the user.
+                '404':
+                    description: Returns error when user with this UserID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this ID does not exist.
             operationId: UserID
             summary: Get full details of the User.
             description: Will return details of a given <User> based on UserID given.
