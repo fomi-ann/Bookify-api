@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.route("/events/:EventID")
     .get(EventsController.getByID)
     .delete(EventsController.deleteById)
+    .put(EventsController.modifyById)
 }

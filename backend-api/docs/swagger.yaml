@@ -97,6 +97,9 @@ paths:
                         application/json:
                             -
                                 error: Book not found
+            operationId: BookID
+            summary: Change details of a <Book> with a given ID
+            description: Will return updated details of a <Book> with a given ID
         delete:
             tags:
                 - Books
@@ -128,6 +131,7 @@ paths:
                 required: true
                 type: string
     /users:
+<<<<<<< HEAD
         get:
             tags:
                 - Users
@@ -145,6 +149,8 @@ paths:
                                 - user2
             summary: Get all users.
             description: Returns all Users that are registered in the API.
+=======
+>>>>>>> As-an-app-developer,-I-want-to-be-able-to-modify-the-details-of-a-given-Event-437879
         post:
             tags:
                 - Users
@@ -236,6 +242,13 @@ paths:
                     in: path
                     required: true
                     type: string
+                -
+                    name: body
+                    description: Contains modified <Event> data
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    in: body
+                    required: true
             responses:
                 '200':
                     description: Returns all details of the given <Event>
@@ -272,6 +285,53 @@ paths:
             operationId: EventID
             summary: Get full details of a given <Event>
             description: Will return all details of a given <Event> based on EventID given.
+        put:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specific <Event>
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: 'Returns 201, upon sucessful modification of an <Event>'
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    examples:
+                        application/json:
+                            -
+                                EventStartDate: '2018-02-10T09:30Z'
+                                EventEndDate: '2018-02-10T09:30Z'
+                                EventLocation: Tallinn
+                                EventCost: 93
+                                EventMaxParticipantCount: 44
+                                EventCurrentParticipantCount: 1
+                                EventLanguage: Estonian
+                                EventDescription: Very Fun Event
+                                EventName: Tallinn Night Readers
+                '400':
+                    description: 'Returns 400, when one or multiple parameters are missing.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Unable to modify Event, some parameters are missing'
+                '404':
+                    description: 'Returns 404, when <Event> to modify with specified ID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event with a given ID does not exist
+            operationId: EventID
+            summary: Change details of an <Event> with a given ID
+            description: Will return updated details of an <Event> with a given ID
         delete:
             tags:
                 - Events
