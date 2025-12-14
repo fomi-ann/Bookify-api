@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
             EventStartDate: {
-                type: DataTypes.DATETIME,
+                type: DataTypes.DATE,
                 allowNull: false
             },
             EventEndDate: {
-                type: DataTypes.DATETIME,
+                type: DataTypes.DATE,
                 allowNull: false
             },
             EventDescription: {
@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DOUBLE,
                 allowNull: false
             },
-            EventMaxParticipantAmount: {
+            EventMaxParticipantCount: {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },
-            EventCurrentParticipantAmount: {
+            EventCurrentParticipantCount: {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },

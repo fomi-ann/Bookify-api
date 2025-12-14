@@ -12,22 +12,22 @@ async (req,res) => {
         !req.body.EventDescription ||
         !req.body.EventLocation ||
         !req.body.EventCost ||
-        !req.body.EventMaxParticipantAmount ||
-        !req.body.EventCurrentParticipantAmount ||
+        !req.body.EventMaxParticipantCount ||
+        !req.body.EventCurrentParticipantCount ||
         !req.body.EventLanguage
     ){
         return res.status(400).send({error:'Missing some parameter, please review your request data.'})
     }
     const newEvent = {
         EventID: UUID.v7(),
-        EventName: req.body.Name,
+        EventName: req.body.EventName,
         EventStartDate: req.body.EventStartDate,
         EventEndDate: req.body.EventEndDate,
         EventDescription: req.body.EventDescription,
         EventLocation: req.body.EventLocation,
         EventCost: req.body.EventCost,
-        EventMaxParticipantAmount: req.body.EventMaxParticipantAmount,
-        EventCurrentParticipantAmount: req.body.EventCurrentParticipantAmount,
+        EventMaxParticipantCount: req.body.EventMaxParticipantCount,
+        EventCurrentParticipantCount: req.body.EventCurrentParticipantCount,
         EventLanguage: req.body.EventLanguage,
     }
     console.log(newEvent.EventID)
