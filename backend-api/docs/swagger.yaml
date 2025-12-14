@@ -128,6 +128,24 @@ paths:
                 required: true
                 type: string
     /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of User's UserNames.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - TestUsername
+                                - TestUsername2
+            operationId: getAll
+            summary: Get all users.
+            description: Returns all of the registered Users UserNames in API.
         post:
             tags:
                 - Users
@@ -208,6 +226,8 @@ paths:
             responses:
                 '200':
                     description: Returns all details of the given <User>.
+                    schema:
+                        type: string
                 '400':
                     description: 'No UserID was entered, User is not found.'
     '/events/{EventID}':
@@ -256,6 +276,7 @@ paths:
                                 error: ''
             operationId: EventID
             summary: Get full details of a given <Event>
+            summary: Get full details of a User.
             description: Will return all details of a given <Event> based on EventID given.
         parameters:
             -

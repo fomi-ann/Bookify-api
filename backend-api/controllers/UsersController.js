@@ -2,6 +2,14 @@ const {db} = require('../db')
 const Utilities = require('./Utilities')
 const UUID = require('uuid')
 
+exports.getAll = async(req, res) => {
+    const users = await db.users.findAll();
+    console.log("getAll: "+ users);
+    res
+    .status(200)
+    .send(users.map(({UserID, UserName}) => {return{UserID, UserName}}))
+}
+
 exports.create =
 async (req,res) => {
     if (
