@@ -131,26 +131,6 @@ paths:
                 required: true
                 type: string
     /users:
-<<<<<<< HEAD
-        get:
-            tags:
-                - Users
-            responses:
-                '200':
-                    description: Returns a list of all Users.
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    examples:
-                        application/json:
-                            -
-                                - user1
-                                - user2
-            summary: Get all users.
-            description: Returns all Users that are registered in the API.
-=======
->>>>>>> As-an-app-developer,-I-want-to-be-able-to-modify-the-details-of-a-given-Event-437879
         post:
             tags:
                 - Users
@@ -166,7 +146,18 @@ paths:
                     description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
                     schema:
                         $ref: '#/definitions/new-User'
-                    examples: {}
+                    examples:
+                        application/json:
+                            -
+                                Email: qmsk4gf
+                                UserName: etdaxrhni
+                                DisplayName: kz
+                                FullName: yxioyt
+                                PhoneNumber: '6'
+                                Password: 8rmd9
+                                ProfileImageUrl: t361p
+                                PagesReadTotal: 70
+                                BooksReadCount: 15
                 '400':
                     description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
@@ -367,23 +358,6 @@ paths:
             -
                 name: EventID
                 description: ID of an Event
-                in: path
-                required: true
-                type: string
-    '/users/{UserID}':
-        get:
-            tags:
-                - Users
-            responses:
-                '200':
-                    description: Returns all details of the given <User>.
-            operationId: UserID
-            summary: Get full details of the User.
-            description: Will return details of a given <User> based on UserID given.
-        parameters:
-            -
-                name: UserID
-                description: ID of the User.
                 in: path
                 required: true
                 type: string
