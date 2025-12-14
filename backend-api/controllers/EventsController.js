@@ -79,3 +79,39 @@ exports.deleteById =
         await eventToBeDeleted.destroy();
         res.status(204).send("No Content")
     }
+
+// Modify Event by ID
+exports.modifyById = 
+async(req, res) => {
+    const eventToBeChanged = await getEvent(req, res);
+    if(!eventToBeChanged) {
+        return;
+    }
+    if (
+        !req.body.EventName ||
+        !req.body.EventStartDate||
+        !req.body.EventEndDate ||
+        !req.body.EventDescription ||
+        !req.body.EventLocation ||
+        !req.body.EventCost ||
+        !req.body.EventMaxParticipantCount ||
+        !req.body.EventCurrentParticipantCount ||
+        !req.body.EventLanguage
+    ){
+        return res.status(400).send({error:'Missing some parameter, please review your request data.'})
+    }
+        eventToBeChanged.EventName = req.body.EventName;
+        eventToBeChanged.EventStartDate = req.body.EventStartDate;
+        eventToBeChanged.EventEndDate = req.body.EventEndDate;
+        eventToBeChanged.EventDescription = req.body.EventDescription;
+        eventToBeChanged.EventLocation = req.body.EventLocation;
+        eventToBeChanged.EventCost = req.body.EventCost;
+        eventToBeChanged.EventMaxParticipantCount = req.body.EventMaxParticipantCount;
+        eventToBeChanged.EventCurrentParticipantCount = req.body.EventCurrentParticipantCount;
+        eventToBeChanged.EventLanguage = req.body.EventLanguage;
+
+        await eventToBeChanged.save();
+        return res
+            .location(`${Utilities.getBaseURL(req)}/events/${eventToBeChanged.EventID}`).sendStatus(201)
+            .send(eventToBeChanged);
+}
