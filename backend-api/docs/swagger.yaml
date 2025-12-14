@@ -192,6 +192,24 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
+        get:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Returns a list of <Event> names.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - Reading Event
+                                - Another Reading Event
+                                - Extra Special Reading Event
+            summary: Get all <Event>s
+            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
@@ -238,6 +256,36 @@ paths:
                         type: string
                 '400':
                     description: 'No UserID was entered, User is not found.'
+    '/events/{EventID}':
+        get:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: EventID
+                    description: ID of Event
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of the given <Event>
+                    examples:
+                        application/json:
+                            EventID: 019b1dcf-4ef7-7157-9ab8-051daa6b142d
+                            EventName: New Event
+                            EventStartDate: '2025-10-01T07:00:00.000Z'
+                            EventEndDate: '2025-10-10T07:00:00.000Z'
+                            EventDescription: Reading event
+                            EventLocation: Online
+                            EventCost: 1
+                            EventMaxParticipantCount: 100
+                            EventCurrentParticipantCount: 3
+                            EventLanguage: English
+                            createdAt: '2025-12-14T17:01:24.000Z'
+                            updatedAt: '2025-12-14T17:01:24.000Z'
+                '400':
+                    description: 'Returns Status Code 400, when an <Event> ID is missing'
                     schema:
                         $ref: '#/definitions/error'
                     examples:
@@ -255,6 +303,41 @@ paths:
             operationId: UserID
             summary: Get full details of a User.
             description: Will return details of a given <User> based on UserID given.
+                                error: ''
+            operationId: EventID
+            summary: Get full details of a given <Event>
+            description: Will return all details of a given <Event> based on EventID given.
+        delete:
+            tags:
+                - Events
+            responses:
+                '204':
+                    description: Returns "No Content" when successfully removed an <Event> from app
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '400':
+                    description: 'Returns error, when <Event> ID was not provided.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: EventID never provided
+                '404':
+                    description: Returns error when <Event> with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event not found
+            operationId: EventID
+            summary: Delete an <Event> from app
+            description: Will delete <Event> with a given Id from the app
         parameters:
             -
                 name: UserID
