@@ -10,6 +10,15 @@ exports.getAll = async(req, res) => {
     .send(users.map(({UserID, UserName}) => {return{UserID, UserName}}))
 }
 
+exports.getByID = 
+async (req, res) => {
+    console.log(req.params.UserID)
+    const user = await getUser(req, res);
+    console.log(user)
+    if (!user) {return res.status(404).send({error: 'User not found'})}
+    return res.status(200).send(user)
+}
+
 exports.create =
 async (req,res) => {
     if (
