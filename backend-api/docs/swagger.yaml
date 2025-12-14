@@ -166,24 +166,6 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
-        get:
-            tags:
-                - Events
-            responses:
-                '200':
-                    description: Returns a list of <Event> names.
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    examples:
-                        application/json:
-                            -
-                                - Reading Event
-                                - Another Reading Event
-                                - Extra Special Reading Event
-            summary: Get all <Event>s
-            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
@@ -219,6 +201,38 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given <User>.
+                '400':
+                    description: 'No UserID was entered, User is not found.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No UserID was entered.
+                '404':
+                    description: <User> with this ID does not exist. Error is returned.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this UserID is not found.
+            operationId: UserID
+            description: Will return details of a given <User> based on UserID given.
+        parameters:
+            -
+                name: UserID
+                description: ID of the User.
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app
