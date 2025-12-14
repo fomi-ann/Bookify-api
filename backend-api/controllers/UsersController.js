@@ -2,6 +2,15 @@ const {db} = require('../db')
 const Utilities = require('./Utilities')
 const UUID = require('uuid')
 
+exports.getByID = 
+async (req, res) => {
+    console.log(req.params.UserID)
+    const user = await getUser(req, res);
+    console.log(user)
+    if (!user) {return res.status(404).send({error: 'User not found'})}
+    return res.status(200).send(user)
+}
+
 exports.create =
 async (req,res) => {
     if (
