@@ -27,6 +27,7 @@ app.use(express.json());
 
 require("./routes/bRoutes.js")(app)
 require("./routes/uRoutes.js")(app)
+require("./routes/eRoutes.js")(app)
 
 app.listen(port, async () => {
     if (process.env.SYNC === 'true') {await sync();}

@@ -156,7 +156,7 @@ paths:
                                 PagesReadTotal: 70
                                 BooksReadCount: 15
                 '400':
-                    description: 'Send 400, if any of the required parameters for a new <User> are not present'
+                    description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
                         $ref: '#/definitions/error'
                     examples:
@@ -165,7 +165,42 @@ paths:
                                 error: e
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
-    /events: {}
+    /events:
+        post:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: body
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    examples:
+                        application/json:
+                            EventName: New Event
+                            EventStartDate: '2025-10-01 10:00:00'
+                            EventEndDate: '2025-10-10 10:00:00'
+                            EventLocation: Online
+                            EventDescription: Reading event
+                            EventCost: 1
+                            EventMaxParticipantCount: 100
+                            EventCurrentParticipantCount: 3
+                            EventLanguage: English
+                '400':
+                    description: 'Send 400, if any of the required parameters for a new <Event> are not present.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: v2c
+            summary: Adds new <Event> into the app
+            description: 'Create a new <Event> instance with its required details, for further usage.'
 definitions:
     new-Book:
         description: Add new book to app
@@ -279,3 +314,53 @@ definitions:
             ProfileImageUrl: 'https//:image.com'
             PagesReadTotal: 999
             BooksReadCount: 222
+    new-Event:
+        title: Root Type for new-Event
+        description: |-
+            {
+                "EventName": "New Event",
+                "EventStartDate": "2025-10-01 10:00:00",
+                "EventEndDate": "2025-10-10 10:00:00",
+                "EventLocation": "Online",
+                "EventDescription": "Reading event",
+                "EventCost": 1,
+                "EventMaxParticipantCount": 100,
+                "EventCurrentParticipantCount": 3,
+                "EventLanguage": "English"
+            }
+        type: object
+        properties:
+            EventStartDate:
+                format: date-time
+                type: string
+            EventEndDate:
+                format: date-time
+                type: string
+            EventLocation:
+                type: string
+            EventCost:
+                format: int32
+                type: integer
+            EventMaxParticipantCount:
+                format: int32
+                type: integer
+            EventCurrentParticipantCount:
+                format: int32
+                type: integer
+            EventLanguage:
+                type: string
+            EventDescription:
+                type: string
+            EventName:
+                description: ''
+                type: string
+        example:
+            EventName: New Event
+            EventStartDate: '2025-10-01 10:00:00'
+            EventEndDate: '2025-10-10 10:00:00'
+            EventLocation: Online
+            EventDescription: Reading event
+            EventCost: 1
+            EventMaxParticipantCount: 100
+            EventCurrentParticipantCount: 3
+            EventLanguage: English

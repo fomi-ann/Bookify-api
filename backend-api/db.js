@@ -34,6 +34,7 @@ db.readingBookList = require("./models/ReadingBookList.js")(sequelize,DataTypes,
 // db.users.hasMany(db.readingBookList)
 // db.readingBookList.hasMany(db.books)
 // db.books.hasMany(db.readingBookList)
+db.events = require("./models/Event.js")(sequelize,DataTypes);
 
 const sync = (async () => {
     await sequelize.sync({alter: true});
