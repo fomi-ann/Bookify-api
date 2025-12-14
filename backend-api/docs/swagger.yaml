@@ -131,6 +131,14 @@ paths:
         get:
             tags:
                 - Users
+            parameters:
+                -
+                    name: body
+                    description: A new User that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    in: body
+                    required: true
             responses:
                 '200':
                     description: Returns a list of User's UserNames.
@@ -230,58 +238,27 @@ paths:
                         type: string
                 '400':
                     description: 'No UserID was entered, User is not found.'
-    '/events/{EventID}':
-        get:
-            tags:
-                - Events
-            parameters:
-                -
-                    name: EventID
-                    description: ID of Event
-                    in: path
-                    required: true
-                    type: string
-            responses:
-                '200':
-                    description: Returns all details of the given <Event>
-                    examples:
-                        application/json:
-                            EventID: 019b1dcf-4ef7-7157-9ab8-051daa6b142d
-                            EventName: New Event
-                            EventStartDate: '2025-10-01T07:00:00.000Z'
-                            EventEndDate: '2025-10-10T07:00:00.000Z'
-                            EventDescription: Reading event
-                            EventLocation: Online
-                            EventCost: 1
-                            EventMaxParticipantCount: 100
-                            EventCurrentParticipantCount: 3
-                            EventLanguage: English
-                            createdAt: '2025-12-14T17:01:24.000Z'
-                            updatedAt: '2025-12-14T17:01:24.000Z'
-                '400':
-                    description: 'Returns Status Code 400, when an <Event> ID is missing'
                     schema:
                         $ref: '#/definitions/error'
                     examples:
                         application/json:
                             -
-                                error: xv3stgj
+                                error: No UserID was entered.
                 '404':
-                    description: 'Returns Status Code 404, when <Eevent> by this ID does not exist.'
+                    description: <User> with this ID does not exist. Error is returned.
                     schema:
                         $ref: '#/definitions/error'
                     examples:
                         application/json:
                             -
-                                error: ''
-            operationId: EventID
-            summary: Get full details of a given <Event>
+                                error: User with this UserID is not found.
+            operationId: UserID
             summary: Get full details of a User.
-            description: Will return all details of a given <Event> based on EventID given.
+            description: Will return details of a given <User> based on UserID given.
         parameters:
             -
-                name: EventID
-                description: ID of an Event
+                name: UserID
+                description: ID of the User.
                 in: path
                 required: true
                 type: string
