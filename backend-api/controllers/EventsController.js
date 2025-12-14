@@ -36,3 +36,12 @@ async (req,res) => {
     return res
     .location(`${Utilities.getBaseURL(req)}/events/${createdEvent.EventID}`).sendStatus(201);
 }
+
+// Get all Events
+exports.getAll = async(req, res) => {
+    const events = await db.events.findAll();
+    console.log("getAll: "+ events);
+    res
+    .status(200)
+    .send(events.map(({EventID, EventName}) => {return{EventID, EventName}}))
+}

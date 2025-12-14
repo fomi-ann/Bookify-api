@@ -166,6 +166,24 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
+        get:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Returns a list of <Event> names.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - Reading Event
+                                - Another Reading Event
+                                - Extra Special Reading Event
+            summary: Get all <Event>s
+            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
