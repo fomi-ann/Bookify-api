@@ -5,5 +5,6 @@ module.exports = (app) => {
     .post(EventsController.create)
     .get(EventsController.getAll)
     app.route("/events/:EventID")
-        .get(EventsController.getByID)
+    .get(EventsController.getByID)
+    .delete(EventsController.deleteById)
 }

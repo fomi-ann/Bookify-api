@@ -166,6 +166,24 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
+        get:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Returns a list of <Event> names.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - Reading Event
+                                - Another Reading Event
+                                - Extra Special Reading Event
+            summary: Get all <Event>s
+            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
@@ -201,15 +219,6 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
-    '/users/{UserID}':
-        get:
-            tags:
-                - Users
-            responses:
-                '200':
-                    description: Returns all details of the given <User>.
-                '400':
-                    description: 'No UserID was entered, User is not found.'
     '/events/{EventID}':
         get:
             tags:
@@ -257,6 +266,37 @@ paths:
             operationId: EventID
             summary: Get full details of a given <Event>
             description: Will return all details of a given <Event> based on EventID given.
+        delete:
+            tags:
+                - Events
+            responses:
+                '204':
+                    description: Returns "No Content" when successfully removed an <Event> from app
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '400':
+                    description: 'Returns error, when <Event> ID was not provided.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: EventID never provided
+                '404':
+                    description: Returns error when <Event> with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event not found
+            operationId: EventID
+            summary: Delete an <Event> from app
+            description: Will delete <Event> with a given Id from the app
         parameters:
             -
                 name: EventID
