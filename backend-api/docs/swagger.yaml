@@ -97,9 +97,6 @@ paths:
                         application/json:
                             -
                                 error: Book not found
-            operationId: BookID
-            summary: Change details of a <Book> with a given ID
-            description: Will return updated details of a <Book> with a given ID
         delete:
             tags:
                 - Books
@@ -239,13 +236,6 @@ paths:
                     in: path
                     required: true
                     type: string
-                -
-                    name: body
-                    description: Contains modified <Event> data
-                    schema:
-                        $ref: '#/definitions/new-Event'
-                    in: body
-                    required: true
             responses:
                 '200':
                     description: Returns all details of the given <Event>
@@ -327,9 +317,76 @@ paths:
             responses:
                 '200':
                     description: Returns all details of the given <User>.
+                '400':
+                    description: Returns error when the ID of the user is not added.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Please enter the ID of the user.
+                '404':
+                    description: Returns error when user with this UserID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this ID does not exist.
             operationId: UserID
             summary: Get full details of the User.
             description: Will return details of a given <User> based on UserID given.
+        put:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in specific user.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: >-
+                        Action returns Status Code 200, when modified User is accepted. Response also sends
+                        modified User.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    examples:
+                        application/json:
+                            -
+                                Email: p@ppc.com
+                                UserName: zt4q
+                                DisplayName: Peter Pan
+                                FullName: ok
+                                PhoneNumber: '574399375'
+                                ProfileImageUrl: m.com
+                                PagesReadTotal: 2423
+                                BooksReadCount: 75
+                                PasswordHASH: 40n
+                '400':
+                    description: >-
+                        Action returns Status Code 400 when the modified User is missing some or all required
+                        parameters. Response also sends an error message.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Some required parameters are missing.
+                '404':
+                    description: >-
+                        Action returns Status Code 404 when ID of modified User is not found. Response also
+                        sends an error message.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User is not found.
+            summary: Modify User data.
         delete:
             tags:
                 - Users
