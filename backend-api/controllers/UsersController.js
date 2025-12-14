@@ -2,15 +2,6 @@ const {db} = require('../db')
 const Utilities = require('./Utilities')
 const UUID = require('uuid')
 
-exports.getByID = 
-async (req, res) => {
-    console.log(req.params.UserID)
-    const user = await getUser(req, res);
-    console.log(user)
-    if (!user) {return res.status(404).send({error: 'User not found'})}
-    return res.status(200).send(user)
-}
-
 exports.getAll = async(req, res) => {
     const users = await db.users.findAll();
     console.log("getAll: "+ users);
@@ -26,6 +17,41 @@ async (req, res) => {
     console.log(user)
     if (!user) {return res.status(404).send({error: 'User not found'})}
     return res.status(200).send(user)
+}
+
+exports.modifyById = 
+async(req, res) => {
+    const userToBeChanged = await getUser(req, res);
+    if(!userToBeChanged) {
+        return;
+    }
+    if (
+        !req.body.Email ||
+        !req.body.UserName ||
+        !req.body.FullName ||
+        !req.body.DisplayName ||
+        !req.body.PhoneNumber ||
+        !req.body.PasswordHASH ||
+        !req.body.ProfileImageUrl ||
+        !req.body.PagesReadTotal ||
+        !req.body.BooksReadCount
+    ){
+        return res.status(400).send({error:'Missing some parameter, please review your request data.'})
+    }
+        userToBeChanged.Email = req.body.Email;
+        userToBeChanged.UserName = req.body.UserName;
+        userToBeChanged.FullName = req.body.FullName;
+        userToBeChanged.DisplayName = req.body.DisplayName;
+        userToBeChanged.PhoneNumber = req.body.PhoneNumber;
+        userToBeChanged.PasswordHASH = req.body.PasswordHASH;
+        userToBeChanged.ProfileImageUrl = req.body.ProfileImageUrl;
+        userToBeChanged.PagesReadTotal = req.body.PagesReadTotal;
+        userToBeChanged.BooksReadCount = req.body.BooksReadCount;
+
+        await userToBeChanged.save();
+        return res
+            .location(`${Utilities.getBaseURL(req)}/users/${userToBeChanged.UserID}`).sendStatus(201)
+            .send(userToBeChanged);
 }
 
 exports.create =
