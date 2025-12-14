@@ -26,6 +26,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 // need to add others as well
 db.books = require("./models/Book.js")(sequelize,DataTypes);
+db.users = require("./models/User.js")(sequelize, DataTypes);
 
 const sync = (async () => {
     await sequelize.sync({alter: true});

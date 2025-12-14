@@ -127,6 +127,21 @@ paths:
                 in: path
                 required: true
                 type: string
+    /users:
+        post:
+            tags:
+                - Users
+            responses:
+                '201':
+                    description: New User has been created successfully.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                '400':
+                    description: 'Missing some parameter, please review requested data.'
+                    schema:
+                        $ref: '#/definitions/error'
+            summary: Create a new user to the app.
+            description: Create a new user instance with its required details for further usage.
 definitions:
     new-Book:
         description: Add new book to app
@@ -193,3 +208,40 @@ definitions:
                 type: string
         example:
             BookID: 019adf28-5ff1-70ee-85b3-2ff2ec27ce17
+    new-User:
+        description: Add new user to the app.
+        required:
+            - Email
+            - Username
+            - Password
+            - ProfileImageUrl
+            - PagesReadTotal
+            - BooksReadCount
+        type: object
+        properties:
+            Email:
+                description: ''
+                type: string
+            Username:
+                description: ''
+                type: string
+            Password:
+                description: ''
+                type: string
+            ProfileImageUrl:
+                description: ''
+                type: string
+            PagesReadTotal:
+                description: ''
+                type: integer
+            BooksReadCount:
+                description: ''
+                type: integer
+        example:
+            -
+                Email: a@a.com
+                Username: sp
+                Password: vnrw123
+                ProfileImageUrl: www.imageurltest.com/testpicture
+                PagesReadTotal: 244
+                BooksReadCount: 2
