@@ -73,3 +73,15 @@ async (req,res) => {
     return res
     .location(`${Utilities.getBaseURL(req)}/users/${createdUser.UserID}`).sendStatus(201);
 }
+
+const getUser =
+async (req, res) => {
+    const idNumber = req.params.UserID;
+    console.log(idNumber)
+    const user = await db.users.findByPk(idNumber);
+    if(!user) {
+        res.status(404).send({error: `User with this id was not found ${idNumber}`})
+        return null;
+    }
+    return user;
+}
