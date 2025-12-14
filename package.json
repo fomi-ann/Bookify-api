@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/fomi-ann/Bookify-api#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "ee-first": "^1.1.1",
     "express": "^5.1.0",
     "mariadb": "^3.4.5",
     "nodemon": "^3.1.11",
