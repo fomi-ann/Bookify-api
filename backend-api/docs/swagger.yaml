@@ -219,6 +219,60 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
+    '/events/{EventID}':
+        get:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: EventID
+                    description: ID of Event
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of the given <Event>
+                    examples:
+                        application/json:
+                            EventID: 019b1dcf-4ef7-7157-9ab8-051daa6b142d
+                            EventName: New Event
+                            EventStartDate: '2025-10-01T07:00:00.000Z'
+                            EventEndDate: '2025-10-10T07:00:00.000Z'
+                            EventDescription: Reading event
+                            EventLocation: Online
+                            EventCost: 1
+                            EventMaxParticipantCount: 100
+                            EventCurrentParticipantCount: 3
+                            EventLanguage: English
+                            createdAt: '2025-12-14T17:01:24.000Z'
+                            updatedAt: '2025-12-14T17:01:24.000Z'
+                '400':
+                    description: 'Returns Status Code 400, when an <Event> ID is missing'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: xv3stgj
+                '404':
+                    description: 'Returns Status Code 404, when <Eevent> by this ID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ''
+            operationId: EventID
+            summary: Get full details of a given <Event>
+            description: Will return all details of a given <Event> based on EventID given.
+        parameters:
+            -
+                name: EventID
+                description: ID of an Event
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app

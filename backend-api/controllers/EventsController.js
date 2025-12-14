@@ -45,3 +45,26 @@ exports.getAll = async(req, res) => {
     .status(200)
     .send(events.map(({EventID, EventName}) => {return{EventID, EventName}}))
 }
+
+// Get Event
+const getEvent =
+async (req, res) => {
+    const idNumber = req.params.EventID;
+    console.log(idNumber)
+    const event = await db.events.findByPk(idNumber);
+    if(!event) {
+        res.status(404).send({error: `Event with this id was not found ${idNumber}`})
+        return null;
+    }
+    return event;
+}
+
+// Get Event by ID
+exports.getByID = 
+async (req, res) => {
+    console.log(req.params.EventID)
+    const event = await getEvent(req, res);
+    console.log(event)
+    if (!event) {return res.status(404).send({error: 'Event not found'})}
+    return res.status(200).send(event)
+}
