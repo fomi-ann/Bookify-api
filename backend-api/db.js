@@ -26,7 +26,14 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 // need to add others as well
 db.books = require("./models/Book.js")(sequelize,DataTypes);
-db.users = require("./models/User.js")(sequelize, DataTypes);
+db.users = require("./models/User.js")(sequelize,DataTypes);
+
+db.readingBookList = require("./models/ReadingBookList.js")(sequelize,DataTypes, db.books);
+
+// db.readingBookList.hasOne(db.users)
+// db.users.hasMany(db.readingBookList)
+// db.readingBookList.hasMany(db.books)
+// db.books.hasMany(db.readingBookList)
 
 const sync = (async () => {
     await sequelize.sync({alter: true});

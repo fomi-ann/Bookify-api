@@ -1,3 +1,5 @@
+
+
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
         'User', {
@@ -10,11 +12,23 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            Username: {
+            UserName: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            Password: {
+            FullName: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            DisplayName: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            PhoneNumber: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            PasswordHASH: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
@@ -23,13 +37,17 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
             PagesReadTotal: {
-                type: DataTypes.INT,
+                type: DataTypes.INTEGER,
                 allowNull: false
             },
             BooksReadCount: {
                 type: DataTypes.INTEGER,
                 allowNull: false
-            },
+            }
+            // IsAdmin: {
+            //     type: DataTypes.BOOLEAN,
+            //     defaultValue: false
+            // }
         }
     )
     console.log(User === sequelize.models.User)

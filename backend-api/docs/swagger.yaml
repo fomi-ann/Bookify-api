@@ -131,17 +131,41 @@ paths:
         post:
             tags:
                 - Users
-            responses:
-                '201':
-                    description: New User has been created successfully.
+            parameters:
+                -
+                    name: body
                     schema:
                         $ref: '#/definitions/new-User'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    examples:
+                        application/json:
+                            -
+                                Email: qmsk4gf
+                                UserName: etdaxrhni
+                                DisplayName: kz
+                                FullName: yxioyt
+                                PhoneNumber: '6'
+                                Password: 8rmd9
+                                ProfileImageUrl: t361p
+                                PagesReadTotal: 70
+                                BooksReadCount: 15
                 '400':
-                    description: 'Missing some parameter, please review requested data.'
+                    description: 'Send 400, if any of the required parameters for a new <User> are not present'
                     schema:
                         $ref: '#/definitions/error'
-            summary: Create a new user to the app.
-            description: Create a new user instance with its required details for further usage.
+                    examples:
+                        application/json:
+                            -
+                                error: e
+            summary: Adds new <User> to the app
+            description: Enables user signup functions and further usage.
+    /events: {}
 definitions:
     new-Book:
         description: Add new book to app
@@ -209,39 +233,49 @@ definitions:
         example:
             BookID: 019adf28-5ff1-70ee-85b3-2ff2ec27ce17
     new-User:
-        description: Add new user to the app.
-        required:
-            - Email
-            - Username
-            - Password
-            - ProfileImageUrl
-            - PagesReadTotal
-            - BooksReadCount
+        title: Root Type for new-User
+        description: |-
+            { 
+                "Email": "example@example.com", 
+                "UserName": "user1", 
+                "DisplayName": "BookifyWorm007", 
+                "FullName": "John Smith", 
+                "PhoneNumber": "123 456 789", 
+                "PasswordHASH": "Abc123", 
+                "ProfileImageUrl": "https//:image.com", 
+                "PagesReadTotal": 999, 
+                "BooksReadCount": 222 
+            }
+        required: []
         type: object
         properties:
             Email:
-                description: ''
                 type: string
-            Username:
-                description: ''
+            UserName:
                 type: string
-            Password:
-                description: ''
+            DisplayName:
+                type: string
+            FullName:
+                type: string
+            PhoneNumber:
                 type: string
             ProfileImageUrl:
-                description: ''
                 type: string
             PagesReadTotal:
-                description: ''
+                format: int32
                 type: integer
             BooksReadCount:
-                description: ''
+                format: int32
                 type: integer
+            PasswordHASH:
+                type: string
         example:
-            -
-                Email: a@a.com
-                Username: sp
-                Password: vnrw123
-                ProfileImageUrl: www.imageurltest.com/testpicture
-                PagesReadTotal: 244
-                BooksReadCount: 2
+            Email: example@example.com
+            UserName: user1
+            DisplayName: BookifyWorm007
+            FullName: John Smith
+            PhoneNumber: 123 456 789
+            PasswordHASH: Abc123
+            ProfileImageUrl: 'https//:image.com'
+            PagesReadTotal: 999
+            BooksReadCount: 222
