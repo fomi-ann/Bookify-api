@@ -131,6 +131,23 @@ paths:
                 required: true
                 type: string
     /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of all Users.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - user1
+                                - user2
+            summary: Get all users.
+            description: Returns all Users that are registered in the API.
         post:
             tags:
                 - Users
@@ -146,18 +163,7 @@ paths:
                     description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
                     schema:
                         $ref: '#/definitions/new-User'
-                    examples:
-                        application/json:
-                            -
-                                Email: qmsk4gf
-                                UserName: etdaxrhni
-                                DisplayName: kz
-                                FullName: yxioyt
-                                PhoneNumber: '6'
-                                Password: 8rmd9
-                                ProfileImageUrl: t361p
-                                PagesReadTotal: 70
-                                BooksReadCount: 15
+                    examples: {}
                 '400':
                     description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
@@ -276,53 +282,6 @@ paths:
             operationId: EventID
             summary: Get full details of a given <Event>
             description: Will return all details of a given <Event> based on EventID given.
-        put:
-            tags:
-                - Events
-            parameters:
-                -
-                    name: body
-                    description: Contains new data to be changed in the specific <Event>
-                    schema:
-                        $ref: '#/definitions/new-Event'
-                    in: body
-                    required: true
-            responses:
-                '201':
-                    description: 'Returns 201, upon sucessful modification of an <Event>'
-                    schema:
-                        $ref: '#/definitions/new-Event'
-                    examples:
-                        application/json:
-                            -
-                                EventStartDate: '2018-02-10T09:30Z'
-                                EventEndDate: '2018-02-10T09:30Z'
-                                EventLocation: Tallinn
-                                EventCost: 93
-                                EventMaxParticipantCount: 44
-                                EventCurrentParticipantCount: 1
-                                EventLanguage: Estonian
-                                EventDescription: Very Fun Event
-                                EventName: Tallinn Night Readers
-                '400':
-                    description: 'Returns 400, when one or multiple parameters are missing.'
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: 'Unable to modify Event, some parameters are missing'
-                '404':
-                    description: 'Returns 404, when <Event> to modify with specified ID does not exist.'
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: Event with a given ID does not exist
-            operationId: EventID
-            summary: Change details of an <Event> with a given ID
-            description: Will return updated details of an <Event> with a given ID
         delete:
             tags:
                 - Events
@@ -358,6 +317,55 @@ paths:
             -
                 name: EventID
                 description: ID of an Event
+                in: path
+                required: true
+                type: string
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given <User>.
+            operationId: UserID
+            summary: Get full details of the User.
+            description: Will return details of a given <User> based on UserID given.
+        delete:
+            tags:
+                - Users
+            responses:
+                '204':
+                    description: Returns 'No Content' when deletion of the User is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No content
+                '400':
+                    description: Returns error when the UserID is missing from the request.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Please enter the ID of the user you want to delete.
+                '404':
+                    description: 'Returns error, when user with the given UserID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this UserID is not found.
+            operationId: UserID
+            summary: Delete User from the app.
+            description: |
+                Deletes user with a given UserID from the app.
+        parameters:
+            -
+                name: UserID
+                description: ID of the User.
                 in: path
                 required: true
                 type: string
@@ -524,3 +532,14 @@ definitions:
             EventMaxParticipantCount: 100
             EventCurrentParticipantCount: 3
             EventLanguage: English
+    delete-User:
+        description: ''
+        required: []
+        type: object
+        properties:
+            UserID:
+                description: ''
+                type: string
+        example:
+            -
+                UserID: 019b1e4f-ff99-76ee-b6fa-005fe3e30ae9
