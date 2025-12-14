@@ -68,3 +68,14 @@ async (req, res) => {
     if (!event) {return res.status(404).send({error: 'Event not found'})}
     return res.status(200).send(event)
 }
+
+// Delete Event by ID
+exports.deleteById =
+    async (req, res) => {
+        const eventToBeDeleted = await getEvent(req, res);
+        if (!eventToBeDeleted) {
+            return;
+        }
+        await eventToBeDeleted.destroy();
+        res.status(204).send("No Content")
+    }
