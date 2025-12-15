@@ -14,8 +14,8 @@ exports.create = async (req, res) => {
         ListName: req.body.ListName,
         Comment: req.body.Comment,
         BookAddedDate: req.body.BookAddedData,
-        UserID: req.body.UserID,
-        BookID: req.body.BookID
+        UserUserID: req.body.UserID,
+        BookBookID: req.body.BookID
     }
     const createdReadingBookList = await db.order.create(newReadingBookList);
     res
