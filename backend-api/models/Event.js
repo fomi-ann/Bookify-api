@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
             "EventID": {
                 type: DataTypes.UUID,
                 primaryKey: true,
-                defaultValue:DataTypes.UUID,
+                defaultValue:DataTypes.UUIDV7,
             },
             EventName: {
                 type: DataTypes.STRING,
