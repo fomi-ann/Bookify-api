@@ -97,6 +97,9 @@ paths:
                         application/json:
                             -
                                 error: Book not found
+            operationId: BookID
+            summary: Modify the details of a given <Book>
+            description: Edit one or more parameters of a specified <Book>
         delete:
             tags:
                 - Books
@@ -272,6 +275,52 @@ paths:
             operationId: EventID
             summary: Get full details of a given <Event>
             description: Will return all details of a given <Event> based on EventID given.
+        put:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed for a specific <Event>
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of <Event>
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    examples:
+                        application/json:
+                            -
+                                EventStartDate: '2018-02-10T09:30Z'
+                                EventEndDate: '2018-02-10T09:30Z'
+                                EventLocation: Tallinn
+                                EventCost: 79
+                                EventMaxParticipantCount: 55
+                                EventCurrentParticipantCount: 95
+                                EventLanguage: Englisj
+                                EventDescription: Super Fly Event
+                                EventName: Most Wanted Book
+                '400':
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event missing some or all parameters required
+                '404':
+                    description: 'Returns Status Code 404, when ID of the modified <Event> is not found.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event with specified ID does not exist
+            operationId: EventID
+            summary: Modify details of a given <Event>
+            description: Edit one or more parameters of a given <Event>
         delete:
             tags:
                 - Events
@@ -317,76 +366,9 @@ paths:
             responses:
                 '200':
                     description: Returns all details of the given <User>.
-                '400':
-                    description: Returns error when the ID of the user is not added.
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: Please enter the ID of the user.
-                '404':
-                    description: Returns error when user with this UserID does not exist.
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: User with this ID does not exist.
             operationId: UserID
             summary: Get full details of the User.
             description: Will return details of a given <User> based on UserID given.
-        put:
-            tags:
-                - Users
-            parameters:
-                -
-                    name: body
-                    description: Contains new data to be changed in specific user.
-                    schema:
-                        $ref: '#/definitions/new-User'
-                    in: body
-                    required: true
-            responses:
-                '200':
-                    description: >-
-                        Action returns Status Code 200, when modified User is accepted. Response also sends
-                        modified User.
-                    schema:
-                        $ref: '#/definitions/new-User'
-                    examples:
-                        application/json:
-                            -
-                                Email: p@ppc.com
-                                UserName: zt4q
-                                DisplayName: Peter Pan
-                                FullName: ok
-                                PhoneNumber: '574399375'
-                                ProfileImageUrl: m.com
-                                PagesReadTotal: 2423
-                                BooksReadCount: 75
-                                PasswordHASH: 40n
-                '400':
-                    description: >-
-                        Action returns Status Code 400 when the modified User is missing some or all required
-                        parameters. Response also sends an error message.
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: Some required parameters are missing.
-                '404':
-                    description: >-
-                        Action returns Status Code 404 when ID of modified User is not found. Response also
-                        sends an error message.
-                    schema:
-                        $ref: '#/definitions/error'
-                    examples:
-                        application/json:
-                            -
-                                error: User is not found.
-            summary: Modify User data.
         delete:
             tags:
                 - Users
