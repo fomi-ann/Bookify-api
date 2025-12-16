@@ -1,20 +1,20 @@
 <script>
 
     export default{
-        components:{
-            thisBook: {
-                BookID: "",
-                Name: "",
-                Description: "desc",
-                ReadingTimeMin: 100,
-                PageCount: 100,
-                Language: "",
-                ReleaseYear: 1999,
-                ISBN: 123456789876,
-                CoverImageUrl: "url",
-                Rating: "5"
-                }
-        },
+        // components:{
+        //     thisBook: {
+        //         BookID: "",
+        //         Name: "",
+        //         Description: "desc",
+        //         ReadingTimeMin: 100,
+        //         PageCount: 100,
+        //         Language: "",
+        //         ReleaseYear: 1999,
+        //         ISBN: 123456789876,
+        //         CoverImageUrl: "url",
+        //         Rating: "5"
+        //         }
+        // },
 
         props: {
             seekID:{
