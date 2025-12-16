@@ -7,7 +7,7 @@ exports.getAll = async(req, res) => {
     console.log("getAll: "+ users);
     res
     .status(200)
-    .send(users.map(({UserID, UserName}) => {return{UserID, UserName}}))
+    .send(users.map(({UserID, UserName, IsAdmin}) => {return{UserID, UserName, IsAdmin}}))
 }
 
 exports.getByID = 
