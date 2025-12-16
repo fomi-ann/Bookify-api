@@ -97,6 +97,9 @@ paths:
                         application/json:
                             -
                                 error: Book not found
+            operationId: BookID
+            summary: Modify the details of a given <Book>
+            description: Edit one or more parameters of a specified <Book>
         delete:
             tags:
                 - Books
@@ -128,6 +131,33 @@ paths:
                 required: true
                 type: string
     /users:
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns a list of all Users.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                UserID: FBHBEDIGNWUR
+                                UserName: dfhshwsrbh112
+                                IsAdmin: false
+                            -
+                                UserID: FBHBEDIGNWUR
+                                UserName: dfhshwsrbh112
+                                IsAdmin: false
+                            -
+                                UserID: FBHBEDIGNWUR
+                                UserName: dfhshwsrbh112
+                                IsAdmin: false
+            summary: Returns a list of all users with limited details.
+            description: |
+                Returns a list of all users with limited details.
         post:
             tags:
                 - Users
@@ -143,18 +173,7 @@ paths:
                     description: 'Send 201, when all required parameters are present and new <User> created sucessfully.'
                     schema:
                         $ref: '#/definitions/new-User'
-                    examples:
-                        application/json:
-                            -
-                                Email: qmsk4gf
-                                UserName: etdaxrhni
-                                DisplayName: kz
-                                FullName: yxioyt
-                                PhoneNumber: '6'
-                                Password: 8rmd9
-                                ProfileImageUrl: t361p
-                                PagesReadTotal: 70
-                                BooksReadCount: 15
+                    examples: {}
                 '400':
                     description: 'Send 400, if any of the required parameters for a new <User> are not present.'
                     schema:
@@ -166,6 +185,24 @@ paths:
             summary: Adds new <User> to the app
             description: Enables user signup functions and further usage.
     /events:
+        get:
+            tags:
+                - Events
+            responses:
+                '200':
+                    description: Returns a list of <Event> names.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - Reading Event
+                                - Another Reading Event
+                                - Extra Special Reading Event
+            summary: Get all <Event>s
+            description: Returns all <Event>s that are registered in API
         post:
             tags:
                 - Events
@@ -201,6 +238,244 @@ paths:
                                 error: v2c
             summary: Adds new <Event> into the app
             description: 'Create a new <Event> instance with its required details, for further usage.'
+    '/events/{EventID}':
+        get:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: EventID
+                    description: ID of Event
+                    in: path
+                    required: true
+                    type: string
+            responses:
+                '200':
+                    description: Returns all details of the given <Event>
+                    examples:
+                        application/json:
+                            EventID: 019b1dcf-4ef7-7157-9ab8-051daa6b142d
+                            EventName: New Event
+                            EventStartDate: '2025-10-01T07:00:00.000Z'
+                            EventEndDate: '2025-10-10T07:00:00.000Z'
+                            EventDescription: Reading event
+                            EventLocation: Online
+                            EventCost: 1
+                            EventMaxParticipantCount: 100
+                            EventCurrentParticipantCount: 3
+                            EventLanguage: English
+                            createdAt: '2025-12-14T17:01:24.000Z'
+                            updatedAt: '2025-12-14T17:01:24.000Z'
+                '400':
+                    description: 'Returns Status Code 400, when an <Event> ID is missing'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: xv3stgj
+                '404':
+                    description: 'Returns Status Code 404, when <Eevent> by this ID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ''
+            operationId: EventID
+            summary: Get full details of a given <Event>
+            description: Will return all details of a given <Event> based on EventID given.
+        put:
+            tags:
+                - Events
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed for a specific <Event>
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of <Event>
+                    schema:
+                        $ref: '#/definitions/new-Event'
+                    examples:
+                        application/json:
+                            -
+                                EventStartDate: '2018-02-10T09:30Z'
+                                EventEndDate: '2018-02-10T09:30Z'
+                                EventLocation: Tallinn
+                                EventCost: 79
+                                EventMaxParticipantCount: 55
+                                EventCurrentParticipantCount: 95
+                                EventLanguage: Englisj
+                                EventDescription: Super Fly Event
+                                EventName: Most Wanted Book
+                '400':
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event missing some or all parameters required
+                '404':
+                    description: 'Returns Status Code 404, when ID of the modified <Event> is not found.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event with specified ID does not exist
+            operationId: EventID
+            summary: Modify details of a given <Event>
+            description: Edit one or more parameters of a given <Event>
+        delete:
+            tags:
+                - Events
+            responses:
+                '204':
+                    description: Returns "No Content" when successfully removed an <Event> from app
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '400':
+                    description: 'Returns error, when <Event> ID was not provided.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: EventID never provided
+                '404':
+                    description: Returns error when <Event> with specified ID does not exist.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Event not found
+            operationId: EventID
+            summary: Delete an <Event> from app
+            description: Will delete <Event> with a given Id from the app
+        parameters:
+            -
+                name: EventID
+                description: ID of an Event
+                in: path
+                required: true
+                type: string
+    '/users/{UserID}':
+        get:
+            tags:
+                - Users
+            responses:
+                '200':
+                    description: Returns all details of the given <User>.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            UserID: hfyrwuv543
+                            Email: a@a.com
+                            UserName: user1
+                            PasswordHASH: tbhefdbgherasgnnwneu6548befwh
+                            IsAdmin: false
+            operationId: UserID
+            summary: Get full details of the User.
+            description: Will return details of a given <User> based on UserID given.
+        put:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified User.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Modified User is accepted and new data is returned.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    examples:
+                        application/json:
+                            -
+                                Email: ie3g@f.com
+                                UserName: srys
+                                DisplayName: '8'
+                                FullName: rsw srgy
+                                PhoneNumber: '43647648468'
+                                ProfileImageUrl: wryw
+                                PagesReadTotal: 7164
+                                BooksReadCount: 17
+                                PasswordHASH: fl6z7
+                '400':
+                    description: Returns 400 when one or more parameters are missing from the request.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can''t change User info, because some or all parameters are missing.'
+                '404':
+                    description: ID of the User is not found. Returns error.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this ID was not found.
+            operationId: UserID
+            summary: Modify the details of a given <User>.
+            description: Edit one or multiple parameters of a specified <User>.
+        delete:
+            tags:
+                - Users
+            responses:
+                '204':
+                    description: Returns 'No Content' when deletion of the User is successful.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No content
+                '400':
+                    description: Returns error when the UserID is missing from the request.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Please enter the ID of the user you want to delete.
+                '404':
+                    description: 'Returns error, when user with the given UserID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this UserID is not found.
+            operationId: UserID
+            summary: Delete User from the app.
+            description: |
+                Deletes user with a given UserID from the app.
+        parameters:
+            -
+                name: UserID
+                description: ID of the User.
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app
@@ -364,3 +639,14 @@ definitions:
             EventMaxParticipantCount: 100
             EventCurrentParticipantCount: 3
             EventLanguage: English
+    delete-User:
+        description: ''
+        required: []
+        type: object
+        properties:
+            UserID:
+                description: ''
+                type: string
+        example:
+            -
+                UserID: 019b1e4f-ff99-76ee-b6fa-005fe3e30ae9
