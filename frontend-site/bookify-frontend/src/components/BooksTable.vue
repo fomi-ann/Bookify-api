@@ -9,14 +9,22 @@
 
 <template>
     <table class="table table-striped">
+        <thead>
         <tr>
-            <th>Raamatu ID</th>
-            <th>Raamatu pealkiri</th>
+            <th>Book ID</th>
+            <th>Book Name</th>
         </tr>
+        </thead>
+        <tbody>
         <tr v-for="item in items" :key="item.BookID">
             <td>{{ item.BookID }}</td>
-            <td>{{ item.Name }}</td>
+            <td>
+                <router-link :to="{name:'book', params: {seekID: item.BookID}}">
+                    <button @click="navigate">Click Here</button>
+                </router-link>
+            </td>
         </tr>
+        </tbody>
     </table>
 </template>
 

@@ -19,12 +19,15 @@ const routes = [
   {
     path: "/books",
     name: "Books",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/BooksView.vue"),
   },
+  {
+    path: "/books/:seekID",
+    name: "book",
+    component: () => import("../views/SingleBookView.vue"),
+    props: route => {return {seekID: String(route.params.seekID)}}
+  }
 ];
 
 const router = createRouter({
