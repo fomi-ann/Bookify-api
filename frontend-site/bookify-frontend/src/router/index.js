@@ -37,3 +37,4 @@ const router = createRouter({
 
 export default router;
 
+//change to fix Lite tracker integration for details view
