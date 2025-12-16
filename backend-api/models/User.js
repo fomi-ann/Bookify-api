@@ -41,11 +41,11 @@ module.exports = (sequelize, DataTypes) => {
             BooksReadCount: {
                 type: DataTypes.INTEGER,
                 allowNull: false
+            },
+            IsAdmin: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
             }
-            // IsAdmin: {
-            //     type: DataTypes.BOOLEAN,
-            //     defaultValue: false
-            // }
         }
     )
     console.log(User === sequelize.models.User)
