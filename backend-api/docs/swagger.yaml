@@ -369,6 +369,53 @@ paths:
             operationId: UserID
             summary: Get full details of the User.
             description: Will return details of a given <User> based on UserID given.
+        put:
+            tags:
+                - Users
+            parameters:
+                -
+                    name: body
+                    description: Contains new data to be changed in the specified User.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    in: body
+                    required: true
+            responses:
+                '200':
+                    description: Modified User is accepted and new data is returned.
+                    schema:
+                        $ref: '#/definitions/new-User'
+                    examples:
+                        application/json:
+                            -
+                                Email: ie3g@f.com
+                                UserName: srys
+                                DisplayName: '8'
+                                FullName: rsw srgy
+                                PhoneNumber: '43647648468'
+                                ProfileImageUrl: wryw
+                                PagesReadTotal: 7164
+                                BooksReadCount: 17
+                                PasswordHASH: fl6z7
+                '400':
+                    description: Returns 400 when one or more parameters are missing from the request.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Can''t change User info, because some or all parameters are missing.'
+                '404':
+                    description: ID of the User is not found. Returns error.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User with this ID was not found.
+            operationId: UserID
+            summary: Modify the details of a given <User>.
+            description: Edit one or multiple parameters of a specified <User>.
         delete:
             tags:
                 - Users
