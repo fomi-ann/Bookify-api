@@ -15,13 +15,15 @@
         name: "SignUpForm",
         data() {
             return {NewUser: {
-                Email: "Email address",
-                Username: "Username",
-                FullName: "Your full name",
-                DisplayName: "Name that other users see",
-                PlainPhoneNumber: "",
-                PlainPassword: "Password",
-                ProfileImageUrl: "Link to your image",
+                Email: "",
+                UserName: "",
+                FullName: "",
+                DisplayName: "",
+                PhoneNumber: "",
+                PlainPassword: "",
+                ProfileImageUrl: "",
+                PagesReadTotal: 0,
+                BooksReadCount: 0  
             }}
         }
     }
@@ -39,16 +41,20 @@
             <input v-model="NewUser.PlainPassword" type="text"/>
         </div>
         <div>
-            <label>Username</label>
-            <input v-model="NewUser.Username" type="text"/>
+            <label>UserName</label>
+            <input v-model="NewUser.UserName" type="text"/>
         </div>
         <div>
             <label>FullName</label>
             <input v-model="NewUser.FullName" type="text"/>
         </div>
         <div>
-            <label>PlainPhoneNumber</label>
-            <input v-model="NewUser.PlainPhoneNumber" type="text"/>
+            <label>DisplayName</label>
+            <input v-model="NewUser.DisplayName" type="text"/>
+        </div>
+        <div>
+            <label>PhoneNumber</label>
+            <input v-model="NewUser.PhoneNumber" type="text"/>
         </div>
         <div>
             <label>ProfileImageUrl</label>

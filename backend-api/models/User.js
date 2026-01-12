@@ -36,11 +36,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             PagesReadTotal: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
             BooksReadCount: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
             IsAdmin: {
                 type: DataTypes.BOOLEAN,

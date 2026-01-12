@@ -56,6 +56,7 @@ async(req, res) => {
 
 exports.create =
 async (req,res) => {
+    console.log(req.body)
     if (
         !req.body.Email ||
         !req.body.UserName ||
@@ -63,9 +64,7 @@ async (req,res) => {
         !req.body.DisplayName ||
         !req.body.PhoneNumber ||
         !req.body.PlainPassword ||
-        !req.body.ProfileImageUrl ||
-        !req.body.PagesReadTotal ||
-        !req.body.BooksReadCount
+        !req.body.ProfileImageUrl
     ){
         const bodycontent = req.body;
         var errors = "";
@@ -84,7 +83,7 @@ async (req,res) => {
                 errors+="DisplayName, "
                 break;
             case !req.body.PhoneNumber:
-                errors+="DisplayName, "
+                errors+="Phonenumber, "
                 break;
             case !req.body.PlainPassword:
                 errors+="Password, "
@@ -112,18 +111,14 @@ async (req,res) => {
         PhoneNumber: req.body.PhoneNumber,
         PasswordHASH: (await Utilities.gimmePassword(req.body.PlainPassword)).toString(),
         ProfileImageUrl: req.body.ProfileImageUrl,
-        PagesReadTotal: req.body.PagesReadTotal,
-        BooksReadCount: req.body.BooksReadCount,
-        
-    }
+        PagesReadTotal: req.body.PagesReadTotal ?? 0,
+        BooksReadCount: req.body.BooksReadCount ?? 0
+    };
     console.log(newUser.UserID)
 
-    if(req.body.PhoneNumber != null){
-        newUser.PhoneNumber = Utilities.gimmePassword(req.body.PlainPhoneNumber).toString();}
-
-    const createdUser = await db.users.create(newUser);
+    const resultingUser = await db.users.create(newUser);
     return res
-    .location(`${Utilities.getBaseURL(req)}/users/${createdUser.UserID}`).sendStatus(201);
+    .location(`${Utilities.getBaseURL(req)}/users/${resultingUser.UserID}`).sendStatus(201);
 }
 
 exports.deleteById =
