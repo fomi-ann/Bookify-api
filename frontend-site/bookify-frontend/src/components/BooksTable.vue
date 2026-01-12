@@ -7,6 +7,7 @@
         methods: {
             async deleteBook(BookID) {
                 await (await fetch(`http://localhost:8080/books/${BookID}`, {method: 'DELETE'}))
+                window.location.reload();
             }
         }
     }
