@@ -376,17 +376,6 @@ paths:
             responses:
                 '200':
                     description: Returns all details of the given <User>.
-                    schema:
-                        type: array
-                        items:
-                            type: string
-                    examples:
-                        application/json:
-                            UserID: hfyrwuv543
-                            Email: a@a.com
-                            UserName: user1
-                            PasswordHASH: tbhefdbgherasgnnwneu6548befwh
-                            IsAdmin: false
             operationId: UserID
             summary: Get full details of the User.
             description: Will return details of a given <User> based on UserID given.
@@ -577,7 +566,7 @@ definitions:
             BooksReadCount:
                 format: int32
                 type: integer
-            PasswordHASH:
+            PlainPassword:
                 type: string
         example:
             Email: example@example.com
