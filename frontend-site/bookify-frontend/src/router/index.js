@@ -20,6 +20,11 @@ const routes = [
     name: "book",
     component: () => import("../views/SingleBookView.vue"),
     props: route => {return {seekID: String(route.params.seekID)}}
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../views/RegisterView.vue')
   }
 ]
 

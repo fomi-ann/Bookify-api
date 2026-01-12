@@ -62,7 +62,7 @@ async (req,res) => {
         !req.body.FullName ||
         !req.body.DisplayName ||
         !req.body.PhoneNumber ||
-        !req.body.PasswordHASH ||
+        !req.body.PlainPassword ||
         !req.body.ProfileImageUrl ||
         !req.body.PagesReadTotal ||
         !req.body.BooksReadCount
@@ -86,7 +86,7 @@ async (req,res) => {
             case !req.body.PhoneNumber:
                 errors+="DisplayName, "
                 break;
-            case !req.body.PasswordHASH:
+            case !req.body.PlainPassword:
                 errors+="Password, "
                 break;
             case !req.body.ProfileImageUrl:
@@ -110,7 +110,7 @@ async (req,res) => {
         FullName: req.body.FullName,
         DisplayName: req.body.DisplayName,
         PhoneNumber: req.body.PhoneNumber,
-        PasswordHASH: (await Utilities.gimmePassword(req.body.PasswordHASH)).toString(),
+        PasswordHASH: (await Utilities.gimmePassword(req.body.PlainPassword)).toString(),
         ProfileImageUrl: req.body.ProfileImageUrl,
         PagesReadTotal: req.body.PagesReadTotal,
         BooksReadCount: req.body.BooksReadCount,
@@ -118,8 +118,8 @@ async (req,res) => {
     }
     console.log(newUser.UserID)
 
-    if(req.body.PhoneNumber2FA != null){
-        newUser.PhoneNumber2FA = Utilities.gimmePassword(req.body.PhoneNumber2FA).toString();}
+    if(req.body.PhoneNumber != null){
+        newUser.PhoneNumber = Utilities.gimmePassword(req.body.PlainPhoneNumber).toString();}
 
     const createdUser = await db.users.create(newUser);
     return res
