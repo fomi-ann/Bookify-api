@@ -29,7 +29,7 @@
     }
 </script>
 
-<template>
+<template class="bg-dark">
     <h1>Enter your data:</h1>
     <form @submit.prevent="signUp">
         <div>

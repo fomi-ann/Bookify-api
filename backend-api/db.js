@@ -1,4 +1,6 @@
 const {Sequelize, DataTypes} = require('sequelize');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
 
 const sequelize = new Sequelize(
     process.env.DB_DBNAME,
@@ -21,6 +23,11 @@ async() => {
     }
 }
 
+const sessionStore = new SequelizeStore({
+    db: sequelize,
+    tableName: "Sessions"
+})
+
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
@@ -39,8 +46,9 @@ db.users.belongsToMany(db.books, {through: db.readingBookList})
 // db.events.belongsToMany(db.users, {through: db.participants, as: "Participants"})
 
 const sync = (async () => {
+    await sessionStore.sync()
     await sequelize.sync({alter: true});
     console.log('DB sync has been completed.');
 })
 
-module.exports = {db, sync};
+module.exports = {db, sync, sessionStore};
