@@ -465,6 +465,41 @@ paths:
                 in: path
                 required: true
                 type: string
+    '/auth/{LoginEmail}':
+        get:
+            tags:
+                - Users
+                - Auth
+            responses:
+                '200':
+                    description: 'Returns 200, when user with email address is found'
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                '400':
+                    description: 'Return response 400, when LoginEmail is missing.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Missing LoginEmail
+                '404':
+                    description: Return 404 when user with this email is not found
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: LoginEmail not found
+        parameters:
+            -
+                name: LoginEmail
+                description: Email by which the user is logged in
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app
@@ -566,7 +601,7 @@ definitions:
             BooksReadCount:
                 format: int32
                 type: integer
-            PlainPassword:
+            PasswordHASH:
                 type: string
         example:
             Email: example@example.com
