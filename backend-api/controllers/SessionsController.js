@@ -38,3 +38,4 @@ async(req, res) => {
         EmailAddress: userToProvideSessionFor.EmailAddress,
         IsAdmin: userToProvideSessionFor.IsAdmin
     })
+}
