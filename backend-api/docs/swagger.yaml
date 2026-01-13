@@ -577,6 +577,42 @@ paths:
                             -
                                 error: 'Session expired, please log in again.'
             summary: Endpoint to refresh login
+    /auth/logout:
+        delete:
+            tags:
+                - Users
+                - Auth
+            responses:
+                '200':
+                    description: |
+                        Responds 200 Ok when removal of session and logout of User is successful.
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            ok: true
+                '401':
+                    description: 'Respond 401 when User is trying to logout, without being logged in.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: User is not logged in.
+                '500':
+                    description: |
+                        Respond 500, when attempting to delete, but uncaught error occurs.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Server error, please hold.'
+            summary: 'Remove a session, when the user requests a logout.'
+            description: |
+                I remoova di spagetti.
 definitions:
     new-Book:
         description: Add new book to app
