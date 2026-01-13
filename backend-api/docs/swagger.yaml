@@ -551,6 +551,32 @@ paths:
                                 error: User not found
             summary: Make session get cookie
             description: Inserts a session object into database and gives the user a cookie
+    /sessions/me:
+        get:
+            tags:
+                - Users
+                - Auth
+            responses:
+                '200':
+                    description: 'Returns 200, when refresh of login successful.'
+                    schema:
+                        $ref: '#/definitions/loggedIn-User'
+                    examples:
+                        application/json:
+                            -
+                                UserID: 8ww
+                                DisplayName: ''
+                                EmailAddress: ''
+                                IsAdmin: true
+                '401':
+                    description: "Returns 401, when reauthentication of User is unsuccessful.\r\n\L\L\r\n"
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: 'Session expired, please log in again.'
+            summary: Endpoint to refresh login
 definitions:
     new-Book:
         description: Add new book to app

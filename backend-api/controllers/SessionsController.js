@@ -38,3 +38,22 @@ async(req, res) => {
         EmailAddress: userToProvideSessionFor.EmailAddress,
         IsAdmin: userToProvideSessionFor.IsAdmin
     })
+}
+
+exports.reAuthenticate = 
+async (req, res) => {
+    if(!req.session.UserID) {
+        return res.status(401).send({error:"Session expired, please log in again. "})
+    }
+    var user = await db.users.findById(req.session.UserID)
+    if(!user)
+    {
+        return res.status(401).send({error:"Logged in user not found, please try logging in again."})
+    }
+    res.status(200).send({
+        UserID : user.UserID,
+        DisplayName: user.DisplayName,
+        EmailAddress: user.EmailAddress,
+        IsAdmin: user.IsAdmin
+    })
+}
