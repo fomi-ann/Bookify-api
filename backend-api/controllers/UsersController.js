@@ -13,7 +13,7 @@ exports.getAll = async(req, res) => {
 exports.getByID = 
 async (req, res) => {
     console.log(req.params.UserID)
-    const user = await getUser(req, res);
+    const user = await getUser(req, res,"ID");
     console.log(user)
     if (!user) {return res.status(404).send({error: 'User not found'})}
     return res.status(200).send(user)
@@ -131,14 +131,46 @@ exports.deleteById =
         res.status(204).send("No Content")
     }
 
-const getUser =
+
+exports.getByEmail = 
 async (req, res) => {
-    const idNumber = req.params.UserID;
-    console.log(idNumber)
-    const user = await db.users.findByPk(idNumber);
-    if(!user) {
-        res.status(404).send({error: `User with this id was not found ${idNumber}`})
-        return null;
+    
+    const user = await getUser(req, res,"Email");
+    if (!user) {return};
+    return res.send(user);
+}
+
+const getUser =
+async (req,res,gtype) => {
+    console.log(req.params)
+    var user = null;
+    var errorReason = "";
+    var errorData = ""
+    console.log(gtype)
+    if(!req.params.LoginEmail){
+        
+        res.status(400).send({error:`Missing LoginEmail`})
+                return null;
     }
-    return user;
+    switch(gtype){
+        case "ID":
+            const userID = req.params.UserID;
+            user = await db.users.findByPk(userID);            
+            errorReason="ID";
+            errorData=userID
+            return user;
+        case "Email":
+            const LoginEmail = req.params.LoginEmail;
+            console.log(LoginEmail);
+            user = await db.users.findOne({where: {EmailAddress: LoginEmail}})         
+            errorReason="Email"
+            errorData=LoginEmail     
+            return user;
+            
+    }
+    if (!user) {
+            res.status(404).send({error:`user by this ${errorReason} does not exist${errorData}`})
+            return null;
+        }  
+    
 }

@@ -8,4 +8,6 @@ module.exports = (app) => {
     .get(UsersController.getByID)
     .delete(UsersController.deleteById)
     .put(UsersController.modifyById)
+    app.route("/users/:LoginEmail")
+    .get(UsersController.getByEmail)
 }
