@@ -25,8 +25,7 @@ const routes = [
   {
     path: "/books/create",
     name: "book-create",
-    component: () => import("../views/CreateBookView.vue"),
-    meta: { requiresAuth: true, requiresAdmin: true }
+    component: () => import("../views/CreateBookView.vue")
   },
   {
     path: '/signup',

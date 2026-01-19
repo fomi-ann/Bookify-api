@@ -27,20 +27,14 @@ async mounted() {
 }
 </script>
 
+<p>BooksTable loaded ✅</p>
+
 <template>
-  <p style="background: yellow; padding: 6px;">
-  BooksTable is rendering ✅
-</p>
-
-<div>
-  <router-link :to="{ name: 'book-create' }">
-    <button>Create (forced)</button>
-  </router-link>
+  <div v-if="IsAdmin">
+    <router-link :to="{ name: 'book-create' }">
+      <button>Create</button>
+    </router-link>
 </div>
-
-<p>DEBUG localStorage user: {{ me }}</p>
-<p>DEBUG isAdmin: {{ isAdmin }}</p>
-
 
   <table class="table table-striped">
     <thead>
@@ -67,6 +61,6 @@ async mounted() {
       </tr>
     </tbody>
   </table>
-</template>
+  </template>
 
 <style scoped/>
