@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    async createBook() {
+    async create() {
       this.error = "";
       this.success = "";
       this.loading = true;
@@ -39,9 +39,6 @@ export default {
 
         if (res.status === 401) {
           throw new Error("Not signed in (401).");
-        }
-        if (res.status === 403) {
-          throw new Error("Not admin (403).");
         }
 
         this.success = "Book created successfully!";
@@ -58,7 +55,7 @@ export default {
   <div class="create-book">
     <h1>Create Book</h1>
 
-    <form @submit.prevent="createBook" class="form">
+    <form @submit.prevent="create" class="form">
       <div class="row">
         <label>Name</label>
         <input v-model.trim="book.Name" type="text" required />
@@ -110,8 +107,5 @@ export default {
     </form>
 
     <hr />
-
-    <h3>Preview JSON</h3>
-    <pre>{{ previewJson }}</pre>
   </div>
 </template>

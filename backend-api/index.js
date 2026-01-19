@@ -23,7 +23,11 @@ const { sync, sessionStore} = require("./db")
 //     res.send(["Decameron", "Romeo and Juliet", "It"])
 // })
 
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json());
 
@@ -34,7 +38,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        samSite: "lax",
+        sameSite: "lax",
         secure: false,
         maxAge: 7*24*60*60*1000
     }

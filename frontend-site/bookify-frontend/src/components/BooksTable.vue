@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="isAdmin">
+  <div v-if="IsAdmin">
     <router-link :to="{ name: 'book-create' }">
       <button>Create</button>
     </router-link>
