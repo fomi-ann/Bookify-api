@@ -21,20 +21,20 @@ async (req, res) => {
 
 exports.modifyById = 
 async(req, res) => {
-    const userToBeChanged = await getUser(req, res);
+    const userToBeChanged = await getUser(req, res, "ID");
     if(!userToBeChanged) {
         return;
     }
     if (
-        !req.body.Email ||
-        !req.body.UserName ||
-        !req.body.FullName ||
-        !req.body.DisplayName ||
-        !req.body.PhoneNumber ||
-        !req.body.PasswordHASH ||
-        !req.body.ProfileImageUrl ||
-        !req.body.PagesReadTotal ||
-        !req.body.BooksReadCount
+        req.body.Email == null ||
+        req.body.UserName == null ||
+        req.body.FullName == null ||
+        req.body.DisplayName == null ||
+        req.body.PhoneNumber == null ||
+        req.body.PlainPassword == null ||
+        req.body.ProfileImageUrl == null ||
+        req.body.PagesReadTotal == null ||
+        req.body.BooksReadCount == null
     ){
         return res.status(400).send({error:'Missing some parameter, please review your request data.'})
     }
@@ -43,14 +43,15 @@ async(req, res) => {
         userToBeChanged.FullName = req.body.FullName;
         userToBeChanged.DisplayName = req.body.DisplayName;
         userToBeChanged.PhoneNumber = req.body.PhoneNumber;
-        userToBeChanged.PasswordHASH = req.body.PasswordHASH;
+        userToBeChanged.PlainPassword = req.body.PlainPassword;
         userToBeChanged.ProfileImageUrl = req.body.ProfileImageUrl;
         userToBeChanged.PagesReadTotal = req.body.PagesReadTotal;
         userToBeChanged.BooksReadCount = req.body.BooksReadCount;
 
         await userToBeChanged.save();
         return res
-            .location(`${Utilities.getBaseURL(req)}/users/${userToBeChanged.UserID}`).sendStatus(201)
+            .location(`${Utilities.getBaseURL(req)}/users/${userToBeChanged.UserID}`)
+            .status(201)
             .send(userToBeChanged);
 }
 
@@ -123,7 +124,7 @@ async (req,res) => {
 
 exports.deleteById =
     async (req, res) => {
-        const userToBeDeleted = await getUser(req, res);
+        const userToBeDeleted = await getUser(req, res, "ID");
         if (!userToBeDeleted) {
             return;
         }
@@ -131,6 +132,12 @@ exports.deleteById =
         res.status(204).send("No Content")
     }
 
+exports.me = async (req, res) => {
+  if (!req.session || !req.session.user) {
+    return res.status(401).send({ error: "Not signed in" });
+  }
+  return res.status(200).send(req.session.user);
+};
 
 exports.getByEmail = 
 async (req, res) => {
@@ -147,9 +154,8 @@ async (req,res,gtype) => {
     var errorReason = "";
     var errorData = ""
     console.log(gtype)
-    if(!req.params.LoginEmail){
-        
-        res.status(400).send({error:`Missing LoginEmail`})
+    if(gtype === "Email" && !req.params.Email){
+        res.status(400).send({error:`Missing Email`})
                 return null;
     }
     switch(gtype){
@@ -160,11 +166,11 @@ async (req,res,gtype) => {
             errorData=userID
             return user;
         case "Email":
-            const LoginEmail = req.params.LoginEmail;
-            console.log(LoginEmail);
-            user = await db.users.findOne({where: {EmailAddress: LoginEmail}})         
+            const Email = req.params.Email;
+            console.log(Email);
+            user = await db.users.findOne({where: { Email: Email}})         
             errorReason="Email"
-            errorData=LoginEmail     
+            errorData=Email     
             return user;
             
     }

@@ -398,15 +398,15 @@ paths:
                     examples:
                         application/json:
                             -
-                                Email: ie3g@f.com
-                                UserName: srys
-                                DisplayName: '8'
-                                FullName: rsw srgy
-                                PhoneNumber: '43647648468'
-                                ProfileImageUrl: wryw
-                                PagesReadTotal: 7164
-                                BooksReadCount: 17
-                                PasswordHASH: fl6z7
+                                Email: ''
+                                UserName: ''
+                                DisplayName: ''
+                                FullName: ''
+                                PhoneNumber: ''
+                                ProfileImageUrl: as
+                                PagesReadTotal: 1
+                                BooksReadCount: 32
+                                PlainPassword: bgsw
                 '400':
                     description: Returns 400 when one or more parameters are missing from the request.
                     schema:

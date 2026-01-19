@@ -9,22 +9,10 @@ export default {
       me: null
     };
   },
-  async mounted() {
-    try {
-      const res = await fetch("http://localhost:8080/users/sessions/me", {
-        credentials: "include"
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        this.me = Array.isArray(data) ? data[0] : data;
-      } else {
-        this.me = null;
-      }
-    } catch (e) {
-      this.me = null;
-    }
-  },
+async mounted() {
+  const saved = localStorage.getItem("bookify_user");
+  this.me = saved ? JSON.parse(saved) : null;
+},
   computed: {
     isAdmin() {
       return this.me?.IsAdmin === true;
@@ -40,11 +28,19 @@ export default {
 </script>
 
 <template>
-  <div v-if="IsAdmin">
-    <router-link :to="{ name: 'book-create' }">
-      <button>Create</button>
-    </router-link>
-  </div>
+  <p style="background: yellow; padding: 6px;">
+  BooksTable is rendering ✅
+</p>
+
+<div>
+  <router-link :to="{ name: 'book-create' }">
+    <button>Create (forced)</button>
+  </router-link>
+</div>
+
+<p>DEBUG localStorage user: {{ me }}</p>
+<p>DEBUG isAdmin: {{ isAdmin }}</p>
+
 
   <table class="table table-striped">
     <thead>

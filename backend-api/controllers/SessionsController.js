@@ -32,10 +32,12 @@ async(req, res) => {
     }
     req.session.UserID = userToProvideSessionFor.UserID
 
+    req.session.IsAdmin = userToProvideSessionFor.IsAdmin;
+
     return res.status(200).send({
         UserID : userToProvideSessionFor.UserID,
         DisplayName: userToProvideSessionFor.DisplayName,
-        EmailAddress: userToProvideSessionFor.EmailAddress,
+        EmailAddress: userToProvideSessionFor.Email,
         IsAdmin: userToProvideSessionFor.IsAdmin
     })
 }
@@ -45,7 +47,7 @@ async (req, res) => {
     if(!req.session.UserID) {
         return res.status(401).send({error:"Session expired, please log in again. "})
     }
-    var user = await db.users.findById(req.session.UserID)
+    var user = await db.users.findByPk(req.session.UserID)
     if(!user)
     {
         return res.status(401).send({error:"Logged in user not found, please try logging in again."})
@@ -53,7 +55,7 @@ async (req, res) => {
     res.status(200).send({
         UserID : user.UserID,
         DisplayName: user.DisplayName,
-        EmailAddress: user.EmailAddress,
+        EmailAddress: user.Email,
         IsAdmin: user.IsAdmin
     })
 }
