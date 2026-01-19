@@ -20,7 +20,7 @@ async(req, res) => {
     }
     LoginEmail = req.body.LoginEmail
     console.log(LoginEmail)
-    var userToProvideSessionFor = await db.users.findOne({where: {EmailAddress: LoginEmail}})         
+    var userToProvideSessionFor = await db.users.findOne({where: {Email: LoginEmail}})         
     if(!userToProvideSessionFor) {
         return res.status(404).send({error:"User not found"})
     }

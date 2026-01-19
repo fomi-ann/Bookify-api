@@ -23,7 +23,12 @@ const { sync, sessionStore} = require("./db")
 //     res.send(["Decameron", "Romeo and Juliet", "It"])
 // })
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:8081',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(express.json());
 
