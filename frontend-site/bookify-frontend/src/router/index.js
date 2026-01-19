@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { getMe } from "../auth";
 
 const routes = [
   {
@@ -22,6 +23,12 @@ const routes = [
     props: route => {return {seekID: String(route.params.seekID)}}
   },
   {
+    path: "/books/create",
+    name: "book-create",
+    component: () => import("../views/CreateBookView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
     path: '/signup',
     name: 'signup',
     component: () => import('../views/RegisterView.vue')
@@ -36,6 +43,21 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-})
+});
 
-export default router
+router.beforeEach(async (to) => {
+  if (!to.meta.requiresAdmin) return true;
+
+  const me = await getMe();
+
+  if (!me) return { name: "home" };
+
+  if (me.IsAdmin !== true) {
+    alert("You are not admin!");
+    return { name: "home" };
+  }
+
+  return true;
+});
+
+export default router;
