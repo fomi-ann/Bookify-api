@@ -714,18 +714,18 @@ definitions:
             BooksReadCount:
                 format: int32
                 type: integer
-            PasswordHASH:
+            PlainPassword:
                 type: string
         example:
-            Email: example@example.com
-            UserName: user1
-            DisplayName: BookifyWorm007
-            FullName: John Smith
-            PhoneNumber: 123 456 789
-            PasswordHASH: Abc123
-            ProfileImageUrl: 'https//:image.com'
-            PagesReadTotal: 999
-            BooksReadCount: 222
+            Email: abc@abc.com
+            UserName: ABC1
+            DisplayName: Abc
+            FullName: Abc Abc
+            PhoneNumber: '12345678'
+            ProfileImageUrl: www.exampleimage.com
+            PagesReadTotal: 160
+            BooksReadCount: 2
+            PlainPassword: Abc123
     new-Event:
         title: Root Type for new-Event
         description: |-
