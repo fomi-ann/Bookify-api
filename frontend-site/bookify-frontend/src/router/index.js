@@ -23,6 +23,12 @@ const routes = [
     props: route => {return {seekID: String(route.params.seekID)}}
   },
   {
+    path: "/books/:BookID/edit",
+    name: "book-edit",
+    component: () => import("../views/UpdateBookView.vue"),
+    props: true
+  },
+  {
     path: "/books/create",
     name: "book-create",
     component: () => import("../views/CreateBookView.vue")

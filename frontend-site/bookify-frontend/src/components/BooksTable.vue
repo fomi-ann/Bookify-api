@@ -27,20 +27,14 @@ async mounted() {
 }
 </script>
 
-<p>BooksTable loaded ✅</p>
-
 <template>
-  <div v-if="IsAdmin">
-    <router-link :to="{ name: 'book-create' }">
-      <button>Create</button>
-    </router-link>
-</div>
-
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Book ID</th>
-        <th>Book Name</th>
+        <th>Details</th>
+        <th></th>
+        <th v-if="isAdmin"></th>
       </tr>
     </thead>
     <tbody>
@@ -52,7 +46,13 @@ async mounted() {
           </router-link>
         </td>
 
-        <td>
+        <td v-if="isAdmin">
+          <router-link :to="{ name: 'book-edit', params: { BookID: item.BookID } }">
+            <button>Update</button>
+          </router-link>
+        </td>
+
+        <td v-if="isAdmin">
           <router-link :to="{name:'books'}">
             <button @click="deleteBook(item.BookID)">Delete</button>
           </router-link>
