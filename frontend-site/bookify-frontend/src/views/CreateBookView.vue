@@ -18,11 +18,6 @@ export default {
       }
     };
   },
-  computed: {
-    previewJson() {
-      return JSON.stringify(this.book, null, 2);
-    }
-  },
   methods: {
     async create() {
       this.error = "";
@@ -42,7 +37,8 @@ export default {
         }
 
         this.success = "Book created successfully!";
-
+      } catch (e) {
+        this.error = e?.message || "Oops! Something went wrong.";
       } finally {
         this.loading = false;
       }
@@ -52,60 +48,77 @@ export default {
 </script>
 
 <template>
-  <div class="create-book">
-    <h1>Create Book</h1>
+  <div class="d-flex align-items-center py-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
 
-    <form @submit.prevent="create" class="form">
-      <div class="row">
-        <label>Name</label>
-        <input v-model.trim="book.Name" type="text" required />
+          <h1 class="h4 mb-4 text-center">Create a new book</h1>
+
+          <div v-if="success" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> {{ success }}
+            <button type="button" class="btn-close" @click="success = ''"></button>
+          </div>
+
+          <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> {{ error }}
+            <button type="button" class="btn-close" @click="error = ''"></button>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <form @submit.prevent="create">
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Name</label>
+                  <input v-model.trim="book.Name" type="text" class="form-control" placeholder="The Hobbit" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Description</label>
+                  <textarea v-model.trim="book.Description" rows="4" class="form-control" placeholder="Short description..." required></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">ReadingTimeMin</label>
+                  <input v-model.number="book.ReadingTimeMin" type="number" min="1" class="form-control" placeholder="120" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">PageCount</label>
+                  <input v-model.number="book.PageCount" type="number" min="1" class="form-control" placeholder="310" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">Language</label>
+                  <input v-model.trim="book.Language" type="text" class="form-control" placeholder="English" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">ReleaseYear</label>
+                  <input v-model.number="book.ReleaseYear" type="number" min="0" class="form-control" placeholder="2000" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">ISBN</label>
+                  <input v-model.trim="book.ISBN" type="text" class="form-control" placeholder="9780261102217" required />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label small fw-bold">CoverImageUrl</label>
+                  <input v-model.trim="book.CoverImageUrl" type="url" class="form-control" placeholder="https://example.com/cover.jpg" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+                  {{ loading ? "Creating..." : "Create" }}
+                </button>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
       </div>
-
-      <div class="row">
-        <label>Description</label>
-        <textarea v-model.trim="book.Description" rows="4" required></textarea>
-      </div>
-
-      <div class="row">
-        <label>ReadingTimeMin</label>
-        <input v-model.number="book.ReadingTimeMin" type="number" min="1" required />
-      </div>
-
-      <div class="row">
-        <label>PageCount</label>
-        <input v-model.number="book.PageCount" type="number" min="1" required />
-      </div>
-
-      <div class="row">
-        <label>Language</label>
-        <input v-model.trim="book.Language" type="text" required />
-      </div>
-
-      <div class="row">
-        <label>ReleaseYear</label>
-        <input v-model.number="book.ReleaseYear" type="number" min="0" required />
-      </div>
-
-      <div class="row">
-        <label>ISBN</label>
-        <input v-model.trim="book.ISBN" type="text" inputmode="numeric" required />
-      </div>
-
-      <div class="row">
-        <label>CoverImageUrl</label>
-        <input v-model.trim="book.CoverImageUrl" type="url" placeholder="https://..." required />
-      </div>
-
-      <div class="actions">
-        <button type="submit" :disabled="loading">
-          {{ loading ? "Creating..." : "Create" }}
-        </button>
-      </div>
-
-      <p v-if="error" class="error">{{ error }}</p>
-      <p v-if="success" class="success">{{ success }}</p>
-    </form>
-
-    <hr />
+    </div>
   </div>
 </template>
