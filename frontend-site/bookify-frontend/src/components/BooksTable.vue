@@ -30,7 +30,7 @@ async mounted() {
 <template>
   <div class="container py-4">
     <div class="row justify-content-center">
-      <div class="col-md-10 col-lg-8">
+      <div class="col-md-12 col-lg-12">
         
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h2 class="h5 mb-0">Browse Books</h2>
@@ -70,22 +70,25 @@ async mounted() {
                       >
                         View
                       </router-link>
-                      <div class="btn-group btn-group">
+
                       <template v-if="isAdmin">
+                        
                         <router-link 
                           :to="{ name: 'book-edit', params: { BookID: item.BookID } }" 
-                          class="btn btn-light border text-primary"
-                        >
+                          class="btn btn-light border text-primary">
                           Edit
                         </router-link>
-                        <button 
-                          @click="deleteBook(item.BookID)" 
-                          class="btn btn-light border text-danger"
-                        >
-                          Del
-                        </button>
+
+                        
+                          <router-link
+                            :to="{ name: 'delete-book', params: { seekID: item.BookID } }"
+                            class="btn btn-light border text-danger">
+                            Delete
+                          </router-link>
+                        
+
                       </template>
-                    </div>
+
                   </td>
                 </tr>
                 
@@ -103,13 +106,6 @@ async mounted() {
     </div>
   </div>
 </template>
-        <td v-if="isAdmin">
-          <router-link
-            :to="{ name: 'delete-book', params: { seekID: item.BookID } }"
-          >
-            Delete
-          </router-link>
-        </td>
 
 <style scoped>
 .table th, .table td {
