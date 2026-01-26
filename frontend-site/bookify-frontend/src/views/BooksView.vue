@@ -34,3 +34,6 @@
         <BooksTable :items="allBooks" />
     </main>
 </template>
+
+<!-- Link to commit with changes:
+ https://github.com/fomi-ann/Bookify-api/commit/4f0d6f8927ec8404051842ac0ea807c8136a4671 -->
