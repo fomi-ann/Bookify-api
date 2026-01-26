@@ -37,12 +37,19 @@ db.users = require("./models/User.js")(sequelize,DataTypes);
 db.events = require("./models/Event.js")(sequelize,DataTypes);
 db.readingBookList = require("./models/ReadingBookList.js")(sequelize,DataTypes, db.books);
 
-// db.readingBookList.hasOne(db.users)
-// db.users.hasMany(db.readingBookList)
-// db.readingBookList.hasMany(db.books)
-// db.books.hasMany(db.readingBookList)
-db.books.belongsToMany(db.users, {through: db.readingBookList, as: "ReadingBookLista"})
-db.users.belongsToMany(db.books, {through: db.readingBookList})
+// Reading list
+db.books.belongsToMany(db.users, {
+    through: db.readingBookList, 
+    foreignKey: 'BookBookID', // Must match the field in your ReadingBookList model
+    otherKey: 'UserUserID' 
+});
+
+db.users.belongsToMany(db.books, { 
+    through: db.readingBookList, 
+    foreignKey: 'UserUserID', 
+    otherKey: 'BookBookID' 
+});
+
 // db.events.belongsToMany(db.users, {through: db.participants, as: "Participants"})
 
 const sync = (async () => {
