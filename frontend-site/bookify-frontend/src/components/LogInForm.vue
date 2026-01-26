@@ -1,46 +1,53 @@
 <script>
 export default {
-    name: "LoginForm",
-    data() {
-        return {
-            loginData: {
-                Email: "",
-                Password: ""
-            },
-            isLoading: false,
-            errorMessage: ""
-        }
-    },
-    methods: {
-        async handleLogin() {
-    this.isLoading = true;
-    try {
+  name: "LoginForm",
+  data() {
+    return {
+      loginData: {
+        Email: "",
+        Password: ""
+      },
+      isLoading: false,
+      errorMessage: ""
+    };
+  },
+
+  methods: {
+    async handleLogin() {
+      this.isLoading = true;
+      this.errorMessage = "";
+
+      try {
         const response = await fetch(`http://localhost:8080/sessions`, {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            credentials: 'include',
-            body: JSON.stringify({
-                LoginEmail: this.loginData.Email,
-                LoginPassword: this.loginData.Password 
-            })
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          credentials: 'include',
+          body: JSON.stringify({
+            LoginEmail: this.loginData.Email,
+            LoginPassword: this.loginData.Password 
+          })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem('bookify_user', JSON.stringify(data));
-            this.$router.push('/');
+          localStorage.setItem('bookify_user', JSON.stringify(data));
+
+          window.dispatchEvent(new Event("bookify-user-changed"));
+
+          this.$router.push('/');
         } else {
-            this.errorMessage = data.error || "Login failed";
+          this.errorMessage = data.error || "Login failed";
         }
-    } catch (error) {
+
+      } catch (error) {
         this.errorMessage = "Service unavailable.";
-    } finally {
+      } finally {
         this.isLoading = false;
+      }
     }
-}
-    }
-}
+  }
+};
 </script>
 
 <template>
