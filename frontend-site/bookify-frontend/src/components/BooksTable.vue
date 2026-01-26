@@ -34,6 +34,7 @@ async mounted() {
         <th>Book ID</th>
         <th>Details</th>
         <th></th>
+        <th></th>
         <th v-if="isAdmin"></th>
       </tr>
     </thead>
@@ -53,8 +54,10 @@ async mounted() {
         </td>
 
         <td v-if="isAdmin">
-          <router-link :to="{name:'books'}">
-            <button @click="deleteBook(item.BookID)">Delete</button>
+          <router-link
+            :to="{ name: 'delete-book', params: { seekID: item.BookID } }"
+          >
+            Delete
           </router-link>
         </td>
 
