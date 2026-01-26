@@ -1,5 +1,3 @@
-
-
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define(
         'User', {
@@ -38,16 +36,16 @@ module.exports = (sequelize, DataTypes) => {
             },
             PagesReadTotal: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
             },
             BooksReadCount: {
                 type: DataTypes.INTEGER,
-                allowNull: false
+                allowNull: true
+            },
+            IsAdmin: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
             }
-            // IsAdmin: {
-            //     type: DataTypes.BOOLEAN,
-            //     defaultValue: false
-            // }
         }
     )
     console.log(User === sequelize.models.User)

@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             Rating: {
                 type: DataTypes.DECIMAL
-                
             },
         }
     )

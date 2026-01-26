@@ -2,7 +2,8 @@ const {db} = require('../db')
 const bcrypt = require('bcrypt')
 
 exports.getBaseURL = (req) => {
-    return(req.connection && req.connection.encrypted ? "https" : "https") + `://${Headers.host}`;
+    const protocol = (req.connection && req.connection.encrypted) ? "https" : "http";
+    return `${protocol}://${req.headers.host}`;
 }
 
 exports.gimmePassword = async (passwordInTXT) => {
@@ -12,6 +13,6 @@ exports.gimmePassword = async (passwordInTXT) => {
 }
 
 exports.letMeIn = async (givenPassword, givenHASH) => {
-    const mtch = await bcrypt.compare(givenPassword, givenHASH);
+    const match = await bcrypt.compare(givenPassword, givenHASH);
     return match;
 }
