@@ -29,6 +29,12 @@ const routes = [
     props: true
   },
   {
+    path: "/books/:seekID/delete",
+    name: "delete-book",
+    component: () => import("../views/DeleteBookView.vue"),
+    props: true
+  },
+  {
     path: "/books/create",
     name: "book-create",
     component: () => import("../views/CreateBookView.vue")

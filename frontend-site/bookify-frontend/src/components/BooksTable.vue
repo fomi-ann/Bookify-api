@@ -103,6 +103,13 @@ async mounted() {
     </div>
   </div>
 </template>
+        <td v-if="isAdmin">
+          <router-link
+            :to="{ name: 'delete-book', params: { seekID: item.BookID } }"
+          >
+            Delete
+          </router-link>
+        </td>
 
 <style scoped>
 .table th, .table td {
