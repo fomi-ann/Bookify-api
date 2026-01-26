@@ -7,7 +7,7 @@ exports.getAll = async(req, res) => {
     console.log("getAll: "+ books);
     res
     .status(200)
-    .send(books.map(({BookID, Name}) => {return{BookID, Name}}))
+    .send(books.map(({BookID, Name, createdAt, updatedAt}) => {return{BookID, Name, createdAt, updatedAt}}))
 }
 
 exports.getByID = 

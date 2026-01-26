@@ -32,17 +32,23 @@ async mounted() {
     <thead>
       <tr>
         <th>Book ID</th>
-        <th>Details</th>
-        <th></th>
+        <th>Book Name</th>
+        <th>Book Added Date</th>
+        <th>Book Updated Date</th>
+        <th colspan="3"></th>
         <th v-if="isAdmin"></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="item in items" :key="item.BookID">
         <td>{{ item.BookID }}</td>
+        <td>{{ item.Name }}</td>
+        <td>{{ item.createdAt }}</td>
+        <td>{{ item.updatedAt }}</td>
+
         <td>
           <router-link :to="{name:'book', params: {seekID: item.BookID}}">
-            <button @click="navigate">Click Here</button>
+            <button @click="navigate">Details</button>
           </router-link>
         </td>
 
