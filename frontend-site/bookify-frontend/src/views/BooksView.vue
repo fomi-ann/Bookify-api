@@ -23,11 +23,17 @@
   }
 }
 </script>
+
+
 <template>
-    <main>
-        <div v-if="isAdmin">
-            <router-link :to="{ name: 'book-create' }">
-                <button>Create</button>
+    <main class="container py-4">
+        <div v-if="isAdmin" class="d-flex justify-content-center mb-4">
+            <router-link 
+                :to="{ name: 'book-create' }" 
+                class="btn btn-light border text-secondary px-4"
+                title="Create New Book"
+            >
+                <i class="bi bi-plus-lg"></i> Add New Book
             </router-link>
         </div> 
 
