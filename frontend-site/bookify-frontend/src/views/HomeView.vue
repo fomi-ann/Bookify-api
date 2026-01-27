@@ -18,7 +18,7 @@
           Track your reading and build your personal reading journey.
         </p>
 
-        <div class="actions">
+        <div v-if="!user" class="actions">
           <router-link class="btn btn-primary px-4" to="/signup">Register</router-link>
           <router-link class="btn btn-outline-light px-4" to="/login">Log in</router-link>
         </div>
@@ -28,7 +28,27 @@
 </template>
 
 <script>
-export default { name: "HomeView" };
+export default {
+  name: "HomeView",
+  data() {
+    return {
+      user: null
+    };
+  },
+  mounted() {
+    this.refreshUser();
+    window.addEventListener("bookify-user-changed", this.refreshUser);
+  },
+  beforeUnmount() {
+    window.removeEventListener("bookify-user-changed", this.refreshUser);
+  },
+  methods: {
+    refreshUser() {
+      const saved = localStorage.getItem("bookify_user");
+      this.user = saved ? JSON.parse(saved) : null;
+    }
+  }
+};
 </script>
 
 <style scoped>
