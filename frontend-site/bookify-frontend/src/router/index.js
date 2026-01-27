@@ -1,6 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { getMe } from "../auth";
+import { createWebHistory } from 'vue-router'
+import ReadingList from '../views/ReadingBookList.vue'
+import CreateReadingList from '../views/CreateReadingListView.vue'
 
 const routes = [
   {
@@ -39,6 +42,7 @@ const routes = [
     name: "book-create",
     component: () => import("../views/CreateBookView.vue")
   },
+  ///////
   {
     path: '/signup',
     name: 'signup',
@@ -48,13 +52,25 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')
+  },
+      {
+    path: '/reading-book-list',
+    name: 'reading',
+    component: () => import('../views/ReadingBookList.vue')
+  },
+  {
+    path: '/reading-book-list/create',
+    name: 'CreateReadingList',
+    component: () => import('../views/CreateReadingListView.vue')
   }
 ]
 
+
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-});
+  history: createWebHistory(),
+  routes,
+})
+
 
 router.beforeEach(async (to) => {
   if (!to.meta.requiresAdmin) return true;

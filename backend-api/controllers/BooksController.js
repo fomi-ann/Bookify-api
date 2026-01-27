@@ -9,6 +9,15 @@ exports.getAll = async(req, res) => {
     .status(200)
     .send(books.map(({BookID, Name, createdAt, updatedAt}) => {return{BookID, Name, createdAt, updatedAt}}))
 }
+All = async (req, res) => {
+    try {
+        const books = await db.Book.findAll();
+        // Convert to plain JSON and send
+        res.status(200).json(books);
+    } catch (err) {
+        res.status(500).send({ error: "Error retrieving books" });
+    }
+};
 
 exports.getByID = 
 async (req, res) => {
