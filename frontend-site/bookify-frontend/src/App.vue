@@ -51,7 +51,8 @@ export default {
       <div class="nav-links p-2">
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link> |
-        <router-link to="/books">Books</router-link>
+        <router-link to="/books">Books</router-link> |
+        <router-link to="/reading-book-list">Reading List</router-link>
 
         <span v-if="!user">
           | <router-link to="/signup">Register</router-link> |
