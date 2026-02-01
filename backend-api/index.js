@@ -50,6 +50,9 @@ sessionStore.sync();
 require("./routes/bRoutes.js")(app)
 require("./routes/uRoutes.js")(app)
 require("./routes/eRoutes.js")(app)
+require("./routes/rlRoutes.js")(app)
+
+app.listen(8080, () => console.log("Server running on http://localhost:8080"));
 
 app.listen(port, async () => {
     if (process.env.SYNC === 'true') {await sync();}

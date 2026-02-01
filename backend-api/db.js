@@ -35,14 +35,36 @@ db.sequelize = sequelize;
 db.books = require("./models/Book.js")(sequelize,DataTypes);
 db.users = require("./models/User.js")(sequelize,DataTypes);
 db.events = require("./models/Event.js")(sequelize,DataTypes);
-db.readingBookList = require("./models/ReadingBookList.js")(sequelize,DataTypes, db.books);
 
-// db.readingBookList.hasOne(db.users)
-// db.users.hasMany(db.readingBookList)
-// db.readingBookList.hasMany(db.books)
-// db.books.hasMany(db.readingBookList)
-db.books.belongsToMany(db.users, {through: db.readingBookList, as: "ReadingBookLista"})
-db.users.belongsToMany(db.books, {through: db.readingBookList})
+db.ReadingBookList = require("./models/ReadingBookList.js")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
+db.ReadingBookListBooks = require("./models/ReadingBookListBooks.js")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
+db.users.hasMany(db.ReadingBookList, {
+  foreignKey: 'UserID'
+});
+
+db.ReadingBookList.belongsTo(db.users, {
+  foreignKey: 'UserID'
+});
+
+db.ReadingBookList.belongsToMany(db.books, {
+  through: db.ReadingBookListBooks,
+  foreignKey: 'ReadingBookListID'
+});
+
+db.books.belongsToMany(db.ReadingBookList, {
+  through: db.ReadingBookListBooks,
+  foreignKey: 'BookID'
+});
+
+
 // db.events.belongsToMany(db.users, {through: db.participants, as: "Participants"})
 
 const sync = (async () => {

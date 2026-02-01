@@ -1,29 +1,27 @@
 module.exports = (sequelize, DataTypes) => {
-    const ReadingBookList = sequelize.define(
-        'ReadingBookList',{
-            ReadingBookListID:{
-                type: DataTypes.UUID,
-                primaryKey: true,
-                DefaultValue: DataTypes.UUIDV7,
-            },
+  const ReadingBookList = sequelize.define(
+    'ReadingBookList', {
+    "ReadingBookListID": {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV7,
+    },
 
-            ListName: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
+    ListName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
-            Comment: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
+    Comment: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
 
-            BookAddedDate: {
-                type: DataTypes.DATE,
-                allowNull: true,
-            },
+    UserID: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    }
+  });
 
-        }
-    )
-    console.log(ReadingBookList === sequelize.models.ReadingBookList)
-    return ReadingBookList;
-}
+  return ReadingBookList;
+};

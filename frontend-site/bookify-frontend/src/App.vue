@@ -57,9 +57,20 @@ export default {
 
       <div class="nav-links p-2">
         <router-link to="/">Home</router-link> |
-        <router-link to="/books">Books</router-link>
-        | <a href="#" @click.prevent="handleLogout" class="text-danger fw-bold text-decoration-none">Logout</a>
-        | <span class="text-muted small ms-1">Hi, <b>{{ user.DisplayName }}</b>!</span>
+
+        <router-link to="/about">About</router-link> |
+        <router-link to="/books">Books</router-link> |
+        <router-link to="/reading-book-list">Reading List</router-link>
+
+        <span v-if="!user">
+          | <router-link to="/signup">Register</router-link> |
+          <router-link to="/login">Log In</router-link>
+        </span>
+
+        <span v-else>
+          | <a href="#" @click.prevent="handleLogout" class="text-danger fw-bold text-decoration-none">Logout</a>
+          | <span class="text-muted small ms-1">Hi, <b>{{ user.DisplayName }}</b></span>
+        </span>
       </div>
     </div>
   </nav>
