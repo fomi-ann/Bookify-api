@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const ReadingBookList = sequelize.define('ReadingBookList', {
-    ReadingBookListID: {
+  const ReadingBookList = sequelize.define(
+    'ReadingBookList', {
+    "ReadingBookListID": {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV7,

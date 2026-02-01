@@ -21,8 +21,7 @@ const { sync, sessionStore } = require("./db");
 // app.get('/books', (req, res) => {
 //     res.send(["Decameron", "Romeo and Juliet", "It"])
 // })
-const readingBookListRoutes = require("./routes/rlRoutes");
-readingBookListRoutes(app);
+
 app.use(
   cors({
     origin: "http://localhost:8081",
@@ -51,13 +50,11 @@ app.use(
 
 sessionStore.sync();
 
+
 require("./routes/bRoutes.js")(app);
 require("./routes/uRoutes.js")(app);
 require("./routes/eRoutes.js")(app);
 require("./routes/rlRoutes.js")(app);
-
-app.use(cors({ origin: "http://localhost:8081", credentials: true }));
-app.use(express.json());
 
 app.listen(8080, () => console.log("Server running on http://localhost:8080"));
 
