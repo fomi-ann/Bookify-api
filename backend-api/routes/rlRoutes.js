@@ -2,5 +2,6 @@ const ReadingBookListController = require('../controllers/ReadingBookListControl
 
 module.exports = (app) => {
   app.route('/reading-book-list')
-     .post(ReadingBookListController.create);
+     .post(ReadingBookListController.create)
+     .get(ReadingBookListController.getAll);
 };

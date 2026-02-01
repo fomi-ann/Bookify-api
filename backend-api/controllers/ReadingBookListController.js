@@ -25,3 +25,26 @@ async (req, res) => {
     res.status(500).send({ error: 'Failed to create reading list' });
   }
 };
+
+exports.getAll = async (req, res) => {
+  try {
+
+    const UserID = req.query.UserID || req.session.UserID;
+
+    if (!UserID) {
+      return res.status(400).json({ error: "UserID is required to fetch lists" });
+    }
+
+    // userID
+    const lists = await db.ReadingBookList.findAll({
+      where: {
+        UserID: UserID
+      }
+    });
+
+    res.status(200).json(lists);
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    res.status(500).send({ error: 'Failed to fetch reading lists' });
+  }
+};
