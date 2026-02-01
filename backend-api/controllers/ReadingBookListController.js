@@ -48,3 +48,29 @@ exports.getAll = async (req, res) => {
     res.status(500).send({ error: 'Failed to fetch reading lists' });
   }
 };
+
+exports.getByID = async (req, res) => {
+try {
+    const id = req.params.id;
+
+    if (!id) {
+      return res.status(400).json({ 
+        error: "Action requires the ID of the specific Reading Book List." 
+      });
+    }
+
+    const list = await db.ReadingBookList.findByPk(id);
+
+    if (!list) {
+      return res.status(404).json({ 
+        error: "Reading Book List with the given ID does not exist." 
+      });
+    }
+
+    res.status(200).json(list);
+
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
+  }
+};

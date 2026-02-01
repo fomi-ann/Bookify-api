@@ -4,7 +4,10 @@
 
     <ul>
       <li v-for="list in lists" :key="list.ReadingBookListID">
-        {{ list.ListName }} — {{ list.Comment }}
+        {{ list.ListName }}
+        <router-link :to="'/reading-book-list/' + list.ReadingBookListID">
+      <button type="button">Details</button>
+    </router-link>
       </li>
     </ul>
 
@@ -32,6 +35,23 @@ export default {
     this.fetchLists();
   },
   methods: {
+    async fetchDetails(id) {
+    this.error = "";
+    try {
+
+      const res = await fetch(`http://localhost:8080/readingBookLists/${id}`);
+      
+      if (!res.ok) {
+        throw new Error("Could not find that list.");
+      }
+
+      const data = await res.json();
+      this.selectedList = data;
+    } catch (err) {
+      this.error = err.message;
+      console.error(err);
+    }
+  },
     async fetchLists() {
       try {
         const res = await axios.get('http://localhost:8080/reading-book-list', { withCredentials: true });
