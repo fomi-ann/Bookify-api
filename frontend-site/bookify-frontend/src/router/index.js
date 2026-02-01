@@ -52,7 +52,7 @@ const routes = [
   {
     path: '/reading-book-list',
     name: 'reading',
-    component: () => import('../views/ReadingBookList.vue')
+    component: () => import('../views/ReadingBookListView.vue')
   }
 ]
 
