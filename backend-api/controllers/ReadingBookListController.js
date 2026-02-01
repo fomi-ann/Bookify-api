@@ -105,3 +105,24 @@ exports.modifyById = async (req, res) => {
     res.status(500).json({ error: "An internal server error occurred." });
   }
 };
+
+exports.deleteById = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const list = await db.ReadingBookList.findByPk(id);
+
+    if (!list) {
+      return res.status(404).json({ 
+        error: "Reading Book List with specified ID is not found." 
+      });
+    }
+    await list.destroy();
+
+    res.status(204).send("No Content");
+
+  } catch (err) {
+    console.error("Delete Error:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
+  }
+};
