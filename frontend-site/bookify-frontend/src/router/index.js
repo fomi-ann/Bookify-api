@@ -58,6 +58,11 @@ const routes = [
   path: '/reading-book-list/:id',
   name: 'DetailReadingBookList',
   component: () => import('../views/DetailsReadingBookListView.vue')
+},
+{
+  path: '/reading-book-list/edit/:id',
+  name: 'UpdateReadingBookList',
+  component: () => import('../views/UpdateReadingBookListView.vue')
 }
 ]
 

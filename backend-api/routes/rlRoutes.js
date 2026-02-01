@@ -6,5 +6,6 @@ module.exports = (app) => {
      .get(ReadingBookListController.getAll);
 
      app.route('/reading-book-list/:id')
-     .get(ReadingBookListController.getByID);
+     .get(ReadingBookListController.getByID)
+     .put(ReadingBookListController.modifyById);
 };

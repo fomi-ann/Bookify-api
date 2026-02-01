@@ -2,9 +2,13 @@
   <div>
     <div v-if="loading">Loading details...</div>
 
-    <div v-else-if="list">
-      <h1>{{ list.ListName}}</h1>
-      <p><strong>Comment:</strong> {{ list.Comment }}</p>
+<div v-if="list">
+  <h1>{{ list.ListName }}</h1>
+  <p>{{ list.Comment }}</p>
+
+  <router-link :to="{ name: 'UpdateReadingBookList', params: { id: list.ReadingBookListID }}">
+    <button type="button">Modify List</button>
+  </router-link>
       
       <router-link to="/reading-book-list">
         <button type="button">Back to My Lists</button>
@@ -28,7 +32,6 @@ export default {
     };
   },
   async mounted() {
-
     const id = this.$route.params.id;
     await this.fetchDetails(id);
   },

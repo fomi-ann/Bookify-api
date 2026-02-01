@@ -74,3 +74,34 @@ try {
     res.status(500).json({ error: "An internal server error occurred." });
   }
 };
+
+exports.modifyById = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+
+    if (!id) {
+      return res.status(400).json({ 
+        error: "Action requires the ID of the specific Reading Book List." 
+      });
+    }
+
+    const list = await db.ReadingBookList.findByPk(id);
+    if (!list) {
+      return res.status(404).json({ 
+        error: "Reading Book List with the given ID does not exist." 
+      });
+    }
+
+    list.ListName = req.body.ListName || list.ListName;
+    list.Comment = req.body.Comment !== undefined ? req.body.Comment : list.Comment;
+
+    await list.save();
+
+    res.status(201).json(list);
+
+  } catch (err) {
+    console.error("Update Error:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
+  }
+};
