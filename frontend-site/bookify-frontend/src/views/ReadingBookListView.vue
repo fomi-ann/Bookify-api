@@ -1,41 +1,75 @@
 <template>
-  <div>
-    <h1>Reading Lists</h1>
-
-    <div class="list-container">
-      <ul v-if="lists.length > 0">
-        <li v-for="list in lists" :key="list.ReadingBookListID">
-          {{ list.ListName }}
-          
-          <router-link :to="'/reading-book-list/' + list.ReadingBookListID">
-            <button type="button">Details</button>
-          </router-link>
-
-          <button type="button" @click="deleteList(list.ReadingBookListID)">
-            Delete
-          </button>
-        </li>
-      </ul>
-
-      <p v-else-if="!loading" style="color: gray;">
-        No reading lists found.
-      </p>
-      
-      <p v-else>Loading lists...</p>
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="h3 fw-bold text-primary">Reading Lists</h1>
+      <p class="text-muted">Organize your book collections</p>
     </div>
 
-    <hr />
+    <div class="row justify-content-center mb-5">
+      <div class="col-12">
+        <div class="card shadow-sm bg-light">
+          <div class="card-body p-4">
+            <form @submit.prevent="submitForm" class="row g-3 align-items-end">
+              <div class="col-md-5">
+                <label class="form-label small fw-bold text-muted text-uppercase">List Name</label>
+                <input v-model="listName" class="form-control" placeholder="e.g. Summer Reads" required />
+              </div>
+              
+              <div class="col-md-5">
+                <label class="form-label small fw-bold text-muted text-uppercase">Comment</label>
+                <input v-model="comment" class="form-control" placeholder="Optional description..." />
+              </div>
 
-    <div class="form-container">
-      <h2>Create New List</h2>
-      <form @submit.prevent="submitForm">
-        <input v-model="listName" placeholder="List name" required />
-        <input v-model="comment" placeholder="Comment" />
-        <button type="submit">Create List</button>
-      </form>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Create</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-5 opacity-10">
+
+    <div v-if="lists.length > 0" class="row g-4">
+      <div v-for="list in lists" :key="list.ReadingBookListID" class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="mb-3">
+              <h3 class="h5 fw-bold mb-1 text-center">{{ list.ListName }}</h3>
+            </div>
+            
+            <div class="mt-auto pt-3 d-flex gap-4">
+              <router-link 
+                :to="'/reading-book-list/' + list.ReadingBookListID" 
+                class="btn btn-outline-primary btn-sm flex-grow-1 fw-bold"
+              >
+                View Reading List
+              </router-link>
+              <button 
+                type="button" 
+                @click="deleteList(list.ReadingBookListID)" 
+                class="btn btn-outline-danger btn-sm px-3"
+              >
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="!loading" class="text-center py-5">
+      <p class="text-muted italic">No reading lists found. Start by creating one above!</p>
+    </div>
+    
+    <div v-else class="text-center py-5">
+      <span class="spinner-border text-primary" role="status"></span>
+      <p class="mt-2 text-muted">Loading your lists...</p>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
