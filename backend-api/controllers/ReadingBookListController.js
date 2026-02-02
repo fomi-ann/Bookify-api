@@ -126,3 +126,31 @@ exports.deleteById = async (req, res) => {
     res.status(500).json({ error: "An internal server error occurred." });
   }
 };
+
+
+// add to reading list
+exports.addBookToList = async (req, res) => {
+  try {
+    const { ReadingBookListID, BookID } = req.body;
+
+    // check if book already added
+    const existingEntry = await db.ReadingBookListBooks.findOne({
+      where: { ReadingBookListID, BookID }
+    });
+
+    if (existingEntry) {
+      return res.status(400).json({ error: "This book is already in that list!" });
+    }
+
+    
+    await db.ReadingBookListBooks.create({
+      ReadingBookListID,
+      BookID
+    });
+
+    res.status(201).json({ message: "Book added successfully!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to add book to the list." });
+  }
+};

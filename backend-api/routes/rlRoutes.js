@@ -9,4 +9,6 @@ module.exports = (app) => {
      .get(ReadingBookListController.getByID)
      .put(ReadingBookListController.modifyById)
      .delete(ReadingBookListController.deleteById);
+
+     app.post('/reading-book-list/add-book', ReadingBookListController.addBookToList);
 };

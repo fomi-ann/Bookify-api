@@ -1,5 +1,6 @@
 <script>
 import defaultCover from '@/assets/default-book.png'
+import axios from 'axios'
 
 export default {
   props: {
@@ -12,6 +13,7 @@ export default {
   data() {
     return {
       defaultCover,
+      myLists: [],
       thisBook: {
         BookID: "",
         Name: "",
@@ -28,7 +30,8 @@ export default {
   },
 
   beforeMount() {
-    this.getDetails()
+    this.getDetails(),
+    this.fetchUserLists()
   },
 
   methods: {
@@ -37,6 +40,35 @@ export default {
         await fetch(`http://localhost:8080/books/${this.seekID}`)
       ).json()
     },
+
+
+    async fetchUserLists() {
+      try {
+        const res = await axios.get('http://localhost:8080/reading-book-list', { withCredentials: true });
+        this.myLists = res.data;
+      } catch (err) {
+        console.error("Error fetching lists", err);
+      }
+    },
+
+    async handleAddToList(event) {
+      const listID = event.target.value;
+      if (!listID) return;
+
+      try {
+        await axios.post('http://localhost:8080/reading-book-list/add-book', {
+          ReadingBookListID: listID,
+          BookID: this.thisBook.BookID
+        }, { withCredentials: true });
+        
+        alert(`"${this.thisBook.Name}" has been added to your list!`);
+        event.target.value = ""; // Reset dropdown
+      } catch (err) {
+        alert(err.response?.data?.error || "Error adding book to list.");
+      }
+    },
+
+
 
     onImageError(event) {
       event.target.src = this.defaultCover
@@ -78,6 +110,16 @@ export default {
           {{ thisBook.Description }}
         </p>
 
+        <div class="mb-4 p-3 bg-light rounded border">
+          <label class="form-label fw-bold small text-uppercase text-muted">Save to Reading List</label>
+          <select @change="handleAddToList" class="form-select mt-1">
+            <option value="" disabled selected>Choose a list...</option>
+            <option v-for="list in myLists" :key="list.ReadingBookListID" :value="list.ReadingBookListID">
+              {{ list.ListName }}
+            </option>
+          </select>
+        </div>
+        
         <!-- Collapse Button -->
         <p class="d-inline-flex gap-1">
           <button
