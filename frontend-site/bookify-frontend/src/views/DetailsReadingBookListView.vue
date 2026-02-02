@@ -21,10 +21,6 @@
           <p class="text-muted mb-0" v-if="list.Comment">{{ list.Comment }}</p>
           <p class="text-muted mb-0" v-else>No comment.</p>
         </div>
-
-        <router-link to="/reading-book-list" class="btn btn-outline-secondary">
-          Back
-        </router-link>
       </div>
 
       <div class="card shadow-sm">
