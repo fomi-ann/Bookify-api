@@ -154,3 +154,21 @@ exports.addBookToList = async (req, res) => {
     res.status(500).json({ error: "Failed to add book to the list." });
   }
 };
+
+// get books in ReadingBookList
+exports.getByID = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const list = await db.ReadingBookList.findByPk(id, {
+      include: [{
+        model: db.books,
+        through: { attributes: [] }
+      }]
+    });
+
+    return res.status(200).json(list);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
