@@ -18,6 +18,10 @@
             <router-link :to="'/books/' + book.BookID" class="btn btn-sm btn-outline-primary">
               View Book
             </router-link>
+
+            <button @click="removeBook(book.BookID)" class="btn btn-sm btn-outline-danger">
+                Remove
+              </button>
           </li>
         </ul>
 
@@ -71,7 +75,25 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    async removeBook(bookId) {
+      if (!confirm("Remove this book from the list?")) return;
+  
+      try {
+        const listId = this.list.ReadingBookListID;
+        const res = await fetch(`http://localhost:8080/reading-book-list/${listId}/book/${bookId}`, {
+          method: 'DELETE'
+        });
+  
+        if (res.status === 204) {
+          this.list.Books = this.list.Books.filter(b => b.BookID !== bookId);
+        } else {
+          alert("Failed to remove book.");
+        }
+      } catch (err) {
+        console.error("Error removing book:", err);
+      }
     }
-  }
+  }, 
 };
 </script>

@@ -172,3 +172,25 @@ exports.getByID = async (req, res) => {
     res.status(500).json({ error: "Internal server error." });
   }
 };
+
+// remove (delete) book from list
+exports.removeBookFromList = async (req, res) => {
+  try {
+    const { ReadingBookListID, BookID } = req.params;
+
+    const deleted = await db.ReadingBookListBooks.destroy({
+      where: {
+        ReadingBookListID: ReadingBookListID,
+        BookID: BookID
+      }
+    });
+
+    if (deleted) {
+      return res.status(204).send();
+    } else {
+      return res.status(404).json({ error: "Relation not found." });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
