@@ -1,13 +1,10 @@
-const {db} = require('../db')
-const Utilities = require('./Utilities')
-const UUID = require('uuid')
+const { db } = require("../db");
+const Utilities = require("./Utilities");
+const UUID = require("uuid");
 
-exports.create = 
-async (req, res) => {
-  if (
-    !req.body.ListName
-  ) {
-    return res.status(400).send({ error: 'ListName is required' });
+exports.create = async (req, res) => {
+  if (!req.body.ListName) {
+    return res.status(400).send({ error: "ListName is required" });
   }
 
   try {
@@ -15,60 +12,61 @@ async (req, res) => {
       UserID: req.session.UserID,
       ReadingBookListID: UUID.v7(),
       ListName: req.body.ListName,
-      Comment: req.body.Comment || null
-    }
-    const createdReadingList = await db.ReadingBookList.create(newReadingBookList);
+      Comment: req.body.Comment || null,
+    };
+    const createdReadingList =
+      await db.ReadingBookList.create(newReadingBookList);
     console.log(createdReadingList);
     res.status(201).json(createdReadingList);
   } catch (err) {
     console.error(err);
-    res.status(500).send({ error: 'Failed to create reading list' });
+    res.status(500).send({ error: "Failed to create reading list" });
   }
 };
 
 exports.getAll = async (req, res) => {
   try {
-
     const UserID = req.query.UserID || req.session.UserID;
 
     if (!UserID) {
-      return res.status(400).json({ error: "UserID is required to fetch lists" });
+      return res
+        .status(400)
+        .json({ error: "UserID is required to fetch lists" });
     }
 
     // userID
     const lists = await db.ReadingBookList.findAll({
       where: {
-        UserID: UserID
-      }
+        UserID: UserID,
+      },
     });
 
     res.status(200).json(lists);
   } catch (err) {
     console.error("Fetch Error:", err);
-    res.status(500).send({ error: 'Failed to fetch reading lists' });
+    res.status(500).send({ error: "Failed to fetch reading lists" });
   }
 };
 
 exports.getByID = async (req, res) => {
-try {
+  try {
     const id = req.params.id;
 
     if (!id) {
-      return res.status(400).json({ 
-        error: "Action requires the ID of the specific Reading Book List." 
+      return res.status(400).json({
+        error: "Action requires the ID of the specific Reading Book List.",
       });
     }
 
     const list = await db.ReadingBookList.findByPk(id);
 
     if (!list) {
-      return res.status(404).json({ 
-        error: "Reading Book List with the given ID does not exist." 
+      return res.status(404).json({
+        error: "Reading Book List with the given ID does not exist.",
       });
     }
 
     res.status(200).json(list);
-
   } catch (err) {
     console.error("Fetch Error:", err);
     res.status(500).json({ error: "An internal server error occurred." });
@@ -79,27 +77,26 @@ exports.modifyById = async (req, res) => {
   try {
     const id = req.params.id;
 
-
     if (!id) {
-      return res.status(400).json({ 
-        error: "Action requires the ID of the specific Reading Book List." 
+      return res.status(400).json({
+        error: "Action requires the ID of the specific Reading Book List.",
       });
     }
 
     const list = await db.ReadingBookList.findByPk(id);
     if (!list) {
-      return res.status(404).json({ 
-        error: "Reading Book List with the given ID does not exist." 
+      return res.status(404).json({
+        error: "Reading Book List with the given ID does not exist.",
       });
     }
 
     list.ListName = req.body.ListName || list.ListName;
-    list.Comment = req.body.Comment !== undefined ? req.body.Comment : list.Comment;
+    list.Comment =
+      req.body.Comment !== undefined ? req.body.Comment : list.Comment;
 
     await list.save();
 
     res.status(201).json(list);
-
   } catch (err) {
     console.error("Update Error:", err);
     res.status(500).json({ error: "An internal server error occurred." });
@@ -113,20 +110,18 @@ exports.deleteById = async (req, res) => {
     const list = await db.ReadingBookList.findByPk(id);
 
     if (!list) {
-      return res.status(404).json({ 
-        error: "Reading Book List with specified ID is not found." 
+      return res.status(404).json({
+        error: "Reading Book List with specified ID is not found.",
       });
     }
     await list.destroy();
 
     res.status(204).send("No Content");
-
   } catch (err) {
     console.error("Delete Error:", err);
     res.status(500).json({ error: "An internal server error occurred." });
   }
 };
-
 
 // add to reading list
 exports.addBookToList = async (req, res) => {
@@ -135,17 +130,18 @@ exports.addBookToList = async (req, res) => {
 
     // check if book already added
     const existingEntry = await db.ReadingBookListBooks.findOne({
-      where: { ReadingBookListID, BookID }
+      where: { ReadingBookListID, BookID },
     });
 
     if (existingEntry) {
-      return res.status(400).json({ error: "This book is already in that list!" });
+      return res
+        .status(400)
+        .json({ error: "This book is already in that list!" });
     }
 
-    
     await db.ReadingBookListBooks.create({
       ReadingBookListID,
-      BookID
+      BookID,
     });
 
     res.status(201).json({ message: "Book added successfully!" });
@@ -161,10 +157,12 @@ exports.getByID = async (req, res) => {
     const id = req.params.id;
 
     const list = await db.ReadingBookList.findByPk(id, {
-      include: [{
-        model: db.books,
-        through: { attributes: [] }
-      }]
+      include: [
+        {
+          model: db.books,
+          through: { attributes: [] },
+        },
+      ],
     });
 
     return res.status(200).json(list);
@@ -181,8 +179,8 @@ exports.removeBookFromList = async (req, res) => {
     const deleted = await db.ReadingBookListBooks.destroy({
       where: {
         ReadingBookListID: ReadingBookListID,
-        BookID: BookID
-      }
+        BookID: BookID,
+      },
     });
 
     if (deleted) {
@@ -194,3 +192,5 @@ exports.removeBookFromList = async (req, res) => {
     res.status(500).json({ error: "Internal server error." });
   }
 };
+
+// try merge
