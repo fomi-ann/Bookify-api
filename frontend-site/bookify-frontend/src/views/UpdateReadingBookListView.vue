@@ -1,28 +1,70 @@
 <template>
-  <div>
-    <h1>Modify Reading List</h1>
+  <div class="d-flex align-items-center py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          
+          <div class="text-center mb-4">
+            <h1 class="h3 fw-bold text-primary">Modify List</h1>
+          </div>
 
-    <form @submit.prevent="updateList">
-      <div>
-        <label>List Name:</label>
-        <input v-model="form.ListName" type="text" required />
+          <div v-if="error" class="alert alert-danger small py-2 text-center" role="alert">
+            {{ error }}
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <form @submit.prevent="updateList">
+                
+                <div class="mb-3">
+                  <label class="form-label small fw-bold">List Name</label>
+                  <input 
+                    v-model="form.ListName" 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="e.g. My Favorites" 
+                    required 
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label small fw-bold">Comment</label>
+                  <textarea 
+                    v-model="form.Comment" 
+                    class="form-control" 
+                    rows="3"
+                    placeholder="Tell us about this list..."
+                  ></textarea>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    :disabled="loading"
+                  >
+                    <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ loading ? 'Saving...' : 'Save Changes' }}
+                  </button>
+                  
+                  <button 
+                    type="button" 
+                    @click="$router.go(-1)" 
+                    class="btn btn-outline-secondary"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+
+        </div>
       </div>
-
-      <div style="margin-top: 10px;">
-        <label>Comment:</label>
-        <textarea v-model="form.Comment"></textarea>
-      </div>
-
-      <div style="margin-top: 20px;">
-        <button type="submit" :disabled="loading">Save Changes</button>
-        <button type="button" @click="$router.go(-1)">Cancel</button>
-      </div>
-    </form>
-
-    <p v-if="error" style="color: red;">{{ error }}</p>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
