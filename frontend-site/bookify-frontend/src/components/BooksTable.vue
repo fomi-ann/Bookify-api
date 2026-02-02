@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+
 export default {
   name: "BooksTable",
   props: {
@@ -22,9 +24,38 @@ async mounted() {
     async deleteBook(BookID) {
       await (await fetch(`http://localhost:8080/books/${BookID}`, { method: 'DELETE' }))
       window.location.reload();
+    },
+    // get user lists
+    async fetchUserLists() {
+      try {
+        const res = await axios.get('http://localhost:8080/reading-book-list', { withCredentials: true });
+        this.myLists = res.data;
+      } catch (err) {
+        console.error("Error fetching reading lists:", err);
+      }
+    },
+    // add to list
+    async addToList(event, BookID) {
+      const listID = event.target.value;
+      if (!listID) return;
+
+      try {
+        await axios.post('http://localhost:8080/reading-book-list/add-book', {
+          ReadingBookListID: listID,
+          BookID: BookID
+        }, { withCredentials: true });
+        
+        alert("Book successfully added to list!");
+        event.target.value = "";
+      } catch (err) {
+        alert(err.response?.data?.error || "Failed to add book.");
+      }
     }
   }
 }
+
+
+
 </script>
 
 <template>
@@ -49,6 +80,8 @@ async mounted() {
                   <th class="pe-3 py-2 fw-bold text-secondary"></th>
                 </tr>
               </thead>
+              
+
               <tbody>
                 <tr v-for="item in items" :key="item.BookID" class="align-middle">
                   <td class="ps-3">
@@ -63,30 +96,23 @@ async mounted() {
                   </td>
                   <td class="pe-3 text-end">
                     
+
                       <router-link 
                         :to="{ name: 'book', params: { seekID: item.BookID } }" 
                         class="btn btn-light border text-secondary"
-                        title="View Details"
-                      >
-                        View
-                      </router-link>
+                        title="View Details">View</router-link>
 
                       <template v-if="isAdmin">
-                        
                         <router-link 
                           :to="{ name: 'book-edit', params: { BookID: item.BookID } }" 
                           class="btn btn-light border text-primary">
                           Edit
                         </router-link>
-
-                        
                           <router-link
                             :to="{ name: 'delete-book', params: { seekID: item.BookID } }"
                             class="btn btn-light border text-danger">
                             Delete
                           </router-link>
-                        
-
                       </template>
 
                   </td>
