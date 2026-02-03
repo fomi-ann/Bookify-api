@@ -613,6 +613,147 @@ paths:
             summary: 'Remove a session, when the user requests a logout.'
             description: |
                 I remoova di spagetti.
+    /reading-book-list:
+        get:
+            tags:
+                - ReadingBookList
+            responses:
+                '200':
+                    description: Returns a list of <ReadingBookLists>
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        application/json:
+                            -
+                                - My Reading List Name
+                                - 50 pages max
+            summary: Get all <ReadingBookLists>
+            description: Return all <ReadingBookLists> that are in API
+        post:
+            tags:
+                - ReadingBookList
+            parameters:
+                -
+                    name: body
+                    description: The ReadingBookList that is to be created.
+                    schema:
+                        $ref: '#/definitions/new-ReadingBookList'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: New ReadingBookList Created Successfully
+                    schema:
+                        $ref: '#/definitions/new-ReadingBookList'
+                '400':
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Missing a parameter!
+                '500':
+                    description: An internal server error
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: An internal server error
+            summary: User creates a new <ReadingBookList>
+            description: <User> can creates a new <ReadingBookList>
+    '/reading-book-list/{ReadingBookListID}':
+        get:
+            tags:
+                - ReadingBookList
+            responses:
+                '200':
+                    description: Returns all details of a given <ReadingBookList>
+            operationId: ReadingBookListID
+            summary: Get a full details of <ReadingBookList>
+            description: Will return all details of a given <ReadingBookList> based on ReadingListID given.
+        put:
+            tags:
+                - ReadingBookList
+            parameters:
+                -
+                    name: body
+                    description: Contains updated data to be changed in the specified <ReadingBookList>
+                    schema:
+                        $ref: '#/definitions/new-ReadingBookList'
+                    in: body
+                    required: true
+            responses:
+                '201':
+                    description: Returns 201 upon successful modification of <ReadingBookList>.
+                    schema:
+                        $ref: '#/definitions/new-ReadingBookList'
+                    examples:
+                        application/json:
+                            -
+                                ListName: Updated Reading Goals for 2009
+                                Comment: Only fantasy books allowed!
+                '400':
+                    description: Returns 400 when one or multiple required parameters are missing.
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Missing parameters!
+                '404':
+                    description: >-
+                        Returns 404 when <ReadingBookList> that is to be modified is not found by the given
+                        ReadingBookListID
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No ReadingBookList found
+                '500':
+                    description: Internal server error
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: Internal server error
+            operationId: ReadingBookListID
+            summary: Modify the details of a given <ReadingBookList>
+            description: Edit parameters of a specific <ReadingBookList>
+        delete:
+            tags:
+                - ReadingBookList
+            responses:
+                '204':
+                    description: Returns 'No Content' when <ReadingBookList> successfully deleted
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: No Content
+                '404':
+                    description: 'Returns error, when <ReadingBookList> with specified ID does not exist.'
+                    schema:
+                        $ref: '#/definitions/error'
+                    examples:
+                        application/json:
+                            -
+                                error: ReadingBookListID not found
+            operationId: ReadingBookListID
+            summary: Delete <ReadingBookList>
+            description: Will delete <ReadingBookList> with a given ID from app.
+        parameters:
+            -
+                name: ReadingBookListID
+                description: ID of the <ReadingBookList>
+                in: path
+                required: true
+                type: string
 definitions:
     new-Book:
         description: Add new book to app
@@ -817,3 +958,21 @@ definitions:
             DisplayName: UserAbuser
             EmailAddress: a@b.com
             IsAdmin: false
+    new-ReadingBookList:
+        title: Root Type for new-ReadingBookList
+        description: A list for users to store their ReadingBookListBooks lists
+        type: object
+        properties:
+            ListName:
+                type: string
+            Comment:
+                type: string
+            UserID:
+                type: string
+        example:
+            ListName: My new reading list
+            Comment: Must read before 2002 ends
+            UserID: 370facb3-70ff-4998-a407-7d318e137e1a
+
+
+
